@@ -2,22 +2,22 @@
 
 namespace App\Http\Requests;
 
-use App\Product;
+use App\Player;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MassDestroyProductRequest extends FormRequest
+class MassDestroyPlayerRequest extends FormRequest
 {
     public function authorize()
     {
-        return abort_if(Gate::denies('product_delete'), 403, '403 Forbidden') ?? true;
+        return abort_if(Gate::denies('player_delete'), 403, '403 Forbidden') ?? true;
     }
 
     public function rules()
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:products,id',
+            'ids.*' => 'exists:players,id',
         ];
     }
 }

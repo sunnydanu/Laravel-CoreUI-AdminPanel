@@ -174,9 +174,9 @@ return [
     'skype'                                => 'Skype',
     'photo'                                => 'Photo (max 8mb)',
     'category_name'                        => 'Category name',
-    'product_management'                   => 'Product management',
-    'products'                             => 'Products',
-    'product_name'                         => 'Product name',
+    'player_management'                   => 'Player management',
+    'players'                             => 'Players',
+    'player_name'                         => 'Player name',
     'price'                                => 'Price',
     'tags'                                 => 'Tags',
     'tag'                                  => 'Tag',
@@ -311,7 +311,7 @@ return [
     'deselect_all'                         => 'Deselect all',
     'team-management'                      => 'Teams',
     'team-management-singular'             => 'Team',
-    'site_title'                           => 'Laravel + CoreUI',
+    'site_title'                           => 'PTTA',
     'userManagement'                       => [
         'title'          => 'User Management',
         'title_singular' => 'User Management',
@@ -333,9 +333,9 @@ return [
             'deleted_at_helper' => '',
         ],
     ],
-    'product'                              => [
-        'title'          => 'Products',
-        'title_singular' => 'Product',
+    'player'                              => [
+        'title'          => 'Players',
+        'title_singular' => 'Player',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',

@@ -28,9 +28,7 @@
                         <th>
                             {{ trans('global.user.fields.email') }}
                         </th>
-                        <th>
-                            {{ trans('global.user.fields.email_verified_at') }}
-                        </th>
+
                         <th>
                             {{ trans('global.user.fields.roles') }}
                         </th>
@@ -41,6 +39,7 @@
                 </thead>
                 <tbody>
                     @foreach($users as $key => $user)
+
                         <tr data-entry-id="{{ $user->id }}">
                             <td>
 
@@ -51,9 +50,7 @@
                             <td>
                                 {{ $user->email ?? '' }}
                             </td>
-                            <td>
-                                {{ $user->email_verified_at ?? '' }}
-                            </td>
+
                             <td>
                                 @foreach($user->roles as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>

@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Product;
+use App\Player;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdatePlayerRequest extends FormRequest
 {
     public function authorize()
     {
-        return \Gate::allows('product_create');
+        return \Gate::allows('player_edit');
     }
 
     public function rules()

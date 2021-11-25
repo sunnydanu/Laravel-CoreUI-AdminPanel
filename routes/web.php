@@ -3,6 +3,8 @@
 Route::redirect('/', '/login');
 
 Route::redirect('/home', '/admin');
+Route::get('/player/register', 'PlayersController@create')->name('player.register');
+Route::post('/player/store', 'PlayersController@store')->name('player.store');
 
 Auth::routes(['register' => false]);
 
@@ -21,7 +23,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::resource('users', 'UsersController');
 
-    Route::delete('products/destroy', 'ProductsController@massDestroy')->name('products.massDestroy');
+    Route::delete('players/destroy', 'PlayersController@massDestroy')->name('players.massDestroy');
 
-    Route::resource('products', 'ProductsController');
+    Route::resource('players', 'PlayersController');
 });

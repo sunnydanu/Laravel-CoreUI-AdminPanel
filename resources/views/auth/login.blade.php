@@ -13,9 +13,9 @@
                     <form method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
                         <h1>
-                            <div class="login-logo">
+                            <div class="login-logo text-center">
                                 <a href="#">
-                                    {{ trans('global.site_title') }}
+                                    <img  width="175" src="{{ asset('img/logo.png') }}" alt="">
                                 </a>
                             </div>
                         </h1>

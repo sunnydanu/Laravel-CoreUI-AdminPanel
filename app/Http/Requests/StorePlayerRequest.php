@@ -2,20 +2,20 @@
 
 namespace App\Http\Requests;
 
-use App\Product;
+// use App\Player;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class StorePlayerRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return \Gate::allows('product_edit');
-    }
+    // public function authorize()
+    // {
+    //     return \Gate::allows('player_create');
+    // }
 
     public function rules()
     {
         return [
-            'name' => [
+            'full_name' => [
                 'required',
             ],
         ];
