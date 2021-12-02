@@ -52,6 +52,25 @@ class PlayersController extends Controller
         return redirect()->route('admin.players.index');
     }
 
+    public function approval($id)
+    {
+        abort_unless(\Gate::allows('player_edit'), 403);
+        $player = Player::findOrFail($id);
+        $update = [];
+        if (auth()->user()->hasRole('district')) {
+
+            $update['district_approval'] = 1;
+        }
+        if (auth()->user()->hasRole('state')) {
+            $update['state_approval'] = 1;
+        }
+
+        
+        $player->update($update);
+
+        return response()->json(['success' => 1], 200);
+    }
+
     public function show(Player $player)
     {
         abort_unless(\Gate::allows('player_show'), 403);
