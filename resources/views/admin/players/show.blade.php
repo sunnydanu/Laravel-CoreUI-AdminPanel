@@ -1,41 +1,113 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('global.product.title') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.show') }} Player
+        </div>
 
-    <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <tbody>
-                <tr>
-                    <th>
-                        {{ trans('global.product.fields.name') }}
-                    </th>
-                    <td>
-                        {{ $product->name }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        {{ trans('global.product.fields.description') }}
-                    </th>
-                    <td>
-                        {!! $product->description !!}
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        {{ trans('global.product.fields.price') }}
-                    </th>
-                    <td>
-                        ${{ $product->price }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>
+                           Player Id
+                        </th>
+                        <td>
+                            {{ $player->id }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Full Name
+                        </th>
+                        <td>
+                            {{ $player->full_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Father Name
+                        </th>
+                        <td>
+                            {!! $player->father_name !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Gender
+                        </th>
+                        <td>
+                            {{ $player->gender }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            DOB
+                        </th>
+                        <td>
+                            {{ $player->dob }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Category
+                        </th>
+                        <td>
+                            {{ $player->category }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            District
+                        </th>
+                        <td>
+                            {{ $player->district }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Pincode
+                        </th>
+                        <td>
+                            {{ $player->pincode }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Phone
+                        </th>
+                        <td>
+                            {{ $player->phone }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Email
+                        </th>
+                        <td>
+                            {{ $player->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            District Approval
+                        </th>
+                        <td>
+                            {{ $player->district_approval == 1 ? 'Yes' : 'No' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            State Approval
+                        </th>
+                        <td>
+                            {{ $player->state_approval == 1 ? 'Yes' : 'No' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 @endsection

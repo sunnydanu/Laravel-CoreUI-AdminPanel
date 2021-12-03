@@ -28,4 +28,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('players/destroy', 'PlayersController@massDestroy')->name('players.massDestroy');
 
     Route::resource('players', 'PlayersController');
+    Route::resource('tournaments', 'TournamentsController');
 });

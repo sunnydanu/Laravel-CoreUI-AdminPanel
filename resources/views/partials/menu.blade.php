@@ -3,7 +3,7 @@
 
         <ul class="nav">
             <li class="nav-item">
-                <a href="{{ route("admin.home") }}" class="nav-link">
+                <a href="{{ route('admin.home') }}" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt">
 
                     </i>
@@ -21,8 +21,8 @@
                     <ul class="nav-dropdown-items">
                         @can('permission_access')
                             <li class="nav-item">
-                                <a href="{{ route("admin.permissions.index") }}"
-                                   class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.permissions.index') }}"
+                                    class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
                                     <i class="fas fa-unlock-alt nav-icon">
 
                                     </i>
@@ -32,8 +32,8 @@
                         @endcan
                         @can('role_access')
                             <li class="nav-item">
-                                <a href="{{ route("admin.roles.index") }}"
-                                   class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.roles.index') }}"
+                                    class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
                                     <i class="fas fa-briefcase nav-icon">
 
                                     </i>
@@ -43,8 +43,8 @@
                         @endcan
                         @can('user_access')
                             <li class="nav-item">
-                                <a href="{{ route("admin.users.index") }}"
-                                   class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.users.index') }}"
+                                    class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
                                     <i class="fas fa-user nav-icon">
 
                                     </i>
@@ -55,9 +55,19 @@
                     </ul>
                 </li>
             @endcan
+            @can('tournament_management_access')
+                <li class="nav-item">
+                    <a href="{{ route('admin.tournaments.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy  ">
+
+                        </i>
+                        {{ trans('global.tournament.title') }}
+                    </a>
+                </li>
+            @endcan
             <li class="nav-item">
-                <a href="{{ route("admin.players.index") }}"
-                   class="nav-link {{ request()->is('admin/players') || request()->is('admin/players/*') ? 'active' : '' }}">
+                <a href="{{ route('admin.players.index') }}"
+                    class="nav-link {{ request()->is('admin/players') || request()->is('admin/players/*') ? 'active' : '' }}">
                     <i class="fas fa-cogs nav-icon">
 
                     </i>
@@ -66,7 +76,7 @@
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link"
-                   onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="nav-icon fas fa-sign-out-alt">
 
                     </i>
