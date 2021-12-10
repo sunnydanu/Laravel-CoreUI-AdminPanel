@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('global.tournament.title') }}
-    </div>
+    <div class="card" id="tournament">
+        <div class="card-header">
+            {{ trans('global.tournament.title') }} Details
+        </div>
 
-    <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <tbody>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <tbody>
                 <tr>
                     <th>
                         {{ trans('global.tournament.fields.name') }}
@@ -25,10 +25,11 @@
                         {!! $tournament->description !!}
                     </td>
                 </tr>
-                
-            </tbody>
-        </table>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
 
 @endsection

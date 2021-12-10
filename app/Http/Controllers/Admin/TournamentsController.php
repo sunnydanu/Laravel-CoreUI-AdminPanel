@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
+use App\District;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyTournamentRequest;
 use App\Http\Requests\StoreTournamentRequest;
@@ -25,7 +27,10 @@ class TournamentsController extends Controller
     {
         abort_unless(\Gate::allows('tournament_create'), 403);
 
-        return view('admin.tournaments.create');
+        $district_list = District::all();
+//        $category_list = Category::all();
+        return view('admin.tournaments.create', compact('district_list', 'category_list'));
+
     }
 
     public function store(StoreTournamentRequest $request)

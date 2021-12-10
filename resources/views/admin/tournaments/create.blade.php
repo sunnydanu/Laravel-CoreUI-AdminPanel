@@ -26,7 +26,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Title*</label>
                                                     <input class="form-control" id="title" type="text" name="title"
-                                                        placeholder="title" required="">
+                                                           placeholder="title" required="">
                                                 </div>
                                             </div>
 
@@ -34,12 +34,28 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Description</label>
                                                     <textarea class="form-control" id="description" name="description"
-                                                        placeholder="Tournament details" required=""></textarea>
+                                                              placeholder="Tournament details" required=""></textarea>
                                                 </div>
                                             </div>
+                                            {{--<div class="col-12">--}}
+                                                {{--<div class="form-group">--}}
+                                                    {{--<label class="form-label">Category*</label>--}}
+
+                                                    {{--<select id="category" name="category" class="form-control">--}}
+                                                        {{--<option value="">Choose Category</option>--}}
+                                                        {{--@foreach($category_list  as $category)--}}
+                                                            {{--<option--}}
+                                                                {{--value="{{$category->code}}">{{$category->name}}</option>--}}
+                                                        {{--@endforeach--}}
+
+                                                    {{--</select>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+
                                             <div class="col-12 mt-2">
                                                 <button name="submit" class="btn btn-block btn-success"
-                                                    value="submit">Create</button>
+                                                        value="submit">Create
+                                                </button>
 
 
                                             </div>
