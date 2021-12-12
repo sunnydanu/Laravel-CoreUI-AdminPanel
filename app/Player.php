@@ -5,22 +5,22 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Player extends Model
-{
+/**
+ * @property mixed $tournaments
+ */
+class Player extends Model{
     use SoftDeletes;
     // use Uuid;
 
     protected $table = 'players';
-    public $incrementing = false;
+    public $incrementing = FALSE;
     protected $keyType = 'uuid';
-
     protected $dates = [
         'created_at',
         'dob',
         'updated_at',
         'deleted_at',
     ];
-
     protected $fillable = [
         'id',
         'full_name',
@@ -46,4 +46,10 @@ class Player extends Model
         'deleted_at',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    function tournaments(){
+        return $this->belongsToMany(Tournament::class, TournamentPlayer::class);
+    }
 }

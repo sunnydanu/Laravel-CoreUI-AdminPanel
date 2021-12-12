@@ -19,7 +19,7 @@
                 <table class=" text-capitalize table table-bordered table-striped table-hover datatable">
                     <thead style="white-space: nowrap">
                     <tr>
-                        <th width="10">
+                        <th width="10px">
                         </th>
                         <th> Id</th>
                         <th> Title</th>
@@ -50,14 +50,18 @@
 
 
                             <td>
-                                <a class="btn btn-xs btn-success"
-                                   href="{{ route('admin.players.index', ['tournament'=> $tournament->id]) }}">
-                                    Players
-                                </a>
-                                <a class="btn btn-xs btn-dark"
-                                   href="{{ route('admin.tournaments.edit', $tournament->id) }}">
-                                    Draw
-                                </a> &nbsp;
+                                @can('view_tournament_player')
+                                    <a class="btn btn-xs btn-success"
+                                       href="{{ route('admin.players.index', ['tournament'=> $tournament->id]) }}">
+                                        Players
+                                    </a>
+                                @endcan
+                                @can('view_tournament_draw')
+                                    <a class="btn btn-xs btn-dark"
+                                       href="{{ route('admin.tournament.draw', $tournament->id) }}">
+                                        Draw
+                                    </a> &nbsp;
+                                @endcan
                                 @can('tournament_show')
                                     <a class="btn btn-xs btn-primary"
                                        href="{{ route('admin.tournaments.show', $tournament->id) }}">

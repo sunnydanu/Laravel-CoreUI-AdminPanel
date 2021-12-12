@@ -6,9 +6,9 @@ Route::redirect('/home', '/admin');
 Route::get('/player/register', 'PlayersController@create')->name('player.register');
 Route::post('/player/store', 'PlayersController@store')->name('player.store');
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => FALSE]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){
     Route::post('approval/{id}', 'PlayersController@approval')->name('player.approval');
 
     Route::get('/', 'HomeController@index')->name('home');
@@ -29,4 +29,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::resource('players', 'PlayersController');
     Route::resource('tournaments', 'TournamentsController');
+
+    Route::post('tournament/register-player', 'TournamentsController@register')->name('tournament.register');
+    Route::post('tournament/draw', 'TournamentsController@register')->name('tournament.draw');
 });

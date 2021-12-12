@@ -18,117 +18,126 @@
             <div class="table-responsive">
                 <table class=" text-capitalize table table-bordered table-striped table-hover datatable">
                     <thead style="white-space: nowrap">
-                        <tr>
-                            <th width="10">
+                    <tr>
+                        <th></th>
+                        <th> Player Id</th>
+                        <th style="width: 5px"> Name</th>
+                        <th> Father Name</th>
+                        <th> gender</th>
+                        <th> dob</th>
+                        <th> category</th>
+                        <th> phone</th>
+                        <th> email</th>
+                        <th> district-approval</th>
+                        <th> state-approval</th>
+                        <th>In Tournament</th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
 
-                            </th>
-                            <th> Name</th>
-                            <th> Father Name</th>
-                            <th> gender</th>
-                            <th> dob</th>
-                            <th> category</th>
-                            <th> district</th>
-                            <th> pincode</th>
-                            <th> phone</th>
-                            <th> email</th>
-                            <th> district-approval</th>
-                            <th> state-approval</th>
-                            <th>
-                                &nbsp;
-                            </th>
-                        </tr>
                     </thead>
                     <tbody>
-                        @foreach ($players as $key => $player)
+                    @foreach ($players as $key => $player)
+                        <tr data-entry-id="{{ $player->id }}">
+                            <td>
 
-                            <tr data-entry-id="{{ $player->id }}">
-                                <td style="padding:  0;">
-                                    <img width="150" src="{{ url('/uploads/' . $player->player_img) }}" alt="">
-                                </td>
-                                <td>
-                                    {{ $player->full_name ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->father_name ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->gender ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->dob ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->category ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->district ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->pincode ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->phone ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $player->email ?? '' }}
-                                </td>
-                                <td>
-                                    <form class="player_approval"
-                                        action="{{ route('admin.player.approval', $player->id) }}" method="POST">
-                                        @csrf
+                            </td>
 
-                                        @if ($player->district_approval)
-                                            <span class="btn btn-success btn-xs ">Approved</span>
-                                        @elseif (auth()->user()->hasRole('district'))
-                                            <button type="submit" title="Click to verifiy"
+                            <td>  {{ $player->id ?? '' }}</td>
+
+                            <td>
+                                {{ $player->full_name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $player->father_name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $player->gender ?? '' }}
+                            </td>
+                            <td>
+                                {{ $player->dob ?? '' }}
+                            </td>
+                            <td>
+                                {{ $player->category ?? '' }}
+                            </td>
+
+                            <td>
+                                {{ $player->phone ?? '' }}
+                            </td>
+                            <td>
+                                {{ $player->email ?? '' }}
+                            </td>
+                            <td>
+                                <form class="player_approval"
+                                      action="{{ route('admin.player.approval', $player->id) }}" method="POST">
+                                    @csrf
+
+                                    @if ($player->district_approval)
+                                        <span class="btn btn-success btn-xs ">Approved</span>
+                                    @elseif (auth()->user()->hasRole('district'))
+                                        <button type="submit" title="Click to verifiy"
                                                 class="btn btn-danger btn-xs action">Pending
-                                            </button>
-                                        @else
-                                            <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
-                                        @endif
+                                        </button>
+                                    @else
+                                        <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
+                                    @endif
 
-                                    </form>
-                                </td>
-                                <td>
-                                    <form class="player_approval"
-                                        action="{{ route('admin.player.approval', $player->id) }}" method="POST">
-                                        @csrf
-                                        @if ($player->state_approval)
-                                            <span class="btn btn-success btn-xs">Approved</span>
-                                        @elseif (auth()->user()->hasRole('state'))
-                                            <button type="submit" title="Click to verifiy"
-                                                class="btn btn-danger btn-xs action">Pending</button>
-                                        @else
-                                            <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
-                                        @endif
-                                    </form>
-                                </td>
-                                <td>
+                                </form>
+                            </td>
+                            <td>
+                                <form class="player_approval"
+                                      action="{{ route('admin.player.approval', $player->id) }}" method="POST">
+                                    @csrf
+                                    @if ($player->state_approval)
+                                        <span class="btn btn-success btn-xs">Approved</span>
+                                    @elseif (auth()->user()->hasRole('state'))
+                                        <button type="submit" title="Click to verifiy"
+                                                class="btn btn-danger btn-xs action">Pending
+                                        </button>
+                                    @else
+                                        <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
+                                    @endif
+                                </form>
+                            </td>
+                            <td>
+                                @if(isset($player->tournaments))
+                                    @foreach($player->tournaments as $tournament)
+                                        <span id="{{$tournament->id}}"
+                                              class="btn btn-xs btn-dark">{{$tournament->id}}</span>
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                <div class="action">
                                     @can('player_show')
                                         <a class="btn btn-xs btn-primary"
-                                            href="{{ route('admin.players.show', $player->id) }}">
+                                           href="{{ route('admin.players.show', $player->id) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
                                     @can('player_edit')
-                                        <a class="btn btn-xs btn-info" href="{{ route('admin.players.edit', $player->id) }}">
+                                        <a class="btn btn-xs btn-info"
+                                           href="{{ route('admin.players.edit', $player->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
                                     @can('player_delete')
                                         <form action="{{ route('admin.players.destroy', $player->id) }}" method="POST"
-                                            onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                            style="display: inline-block;">
+                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                              style="display: inline-block;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="submit" class="btn btn-xs btn-danger"
-                                                value="{{ trans('global.delete') }}">
+                                                   value="{{ trans('global.delete') }}">
                                         </form>
                                     @endcan
-                                </td>
+                                </div>
 
-                            </tr>
-                        @endforeach
+                            </td>
+
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -137,26 +146,102 @@
 @section('scripts')
 
     <script>
-        $(function() {
-            $('form.player_approval').submit(function(event) {
+        $(function () {
+            $('form.player_approval').submit(function (event) {
                 event.preventDefault(); // Prevent the form from submitting via the browser
                 var form = $(this);
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
                     data: form.serialize(),
-                    error: function(jqXHR, textStatus, errorMessage) {
+                    error: function (jqXHR, textStatus, errorMessage) {
                         console.log(errorMessage); // Optional
                     },
-                    success: function(data) {
-                        $('button.action',form).text('Approved').removeClass('btn-danger').addClass('btn-success');
+                    success: function (data) {
+                        $('button.action', form).text('Approved').removeClass('btn-danger').addClass('btn-success');
                     }
-                }).done(function(data) {
+                }).done(function (data) {
                     // Optionally alert the user of success here...
-                }).fail(function(data) {
+                }).fail(function (data) {
                     // Optionally alert the user of an error here...
                 });
             });
+            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons);
+
+            // delete button
+                @can('player_delete')
+            let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+            let deleteButton = {
+                text: deleteButtonTrans,
+                url: "{{ route('admin.players.massDestroy') }}",
+                className: 'btn-danger',
+                action: function (e, dt, node, config) {
+                    const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                        return $(entry).data('entry-id')
+                    });
+
+                    if (ids.length === 0) {
+                        alert('{{ trans('global.datatables.zero_selected') }}')
+
+                        return
+                    }
+
+                    if (confirm('{{ trans('global.areYouSure') }}')) {
+                        $.ajax({
+                            headers: {'x-csrf-token': _token},
+                            method: 'POST',
+                            url: config.url,
+                            data: {ids: ids, _method: 'DELETE'}
+                        })
+                            .done(function () {
+                                location.reload()
+                            })
+                    }
+                }
+            };
+            dtButtons.push(deleteButton)
+            @endcan
+
+            // register tournament player
+            @can('register_tournament_player')
+
+            if ((new URLSearchParams(window.location.search)).has('tournament')) {
+                let addButtonTrans = 'Register Selected Player';
+                let addButton = {
+                    text: addButtonTrans,
+                    url: "{{ route('admin.tournament.register') }}",
+                    className: 'btn-success',
+                    action: function (e, dt, node, config) {
+                        const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                            return $(entry).data('entry-id')
+                        });
+                        if (ids.length === 0) {
+                            alert('{{ trans('global.datatables.zero_selected') }}')
+                            return
+                        }
+                        if (confirm('{{ trans('global.areYouSure') }}')) {
+                            $.ajax({
+                                headers: {'x-csrf-token': _token},
+                                method: 'POST',
+                                url: config.url,
+                                data: {ids: ids, _method: 'POST'}
+                            })
+                                .done(function () {
+                                    location.reload()
+                                })
+                        }
+                    }
+                };
+                dtButtons.push(addButton);
+            }
+
+            @endcan
+
+
+
+            $('.datatable:not(.ajaxTable)').DataTable({
+                buttons: dtButtons
+            })
         });
     </script>
     @parent

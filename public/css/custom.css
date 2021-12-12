@@ -88,3 +88,11 @@ table.dataTable thead .sorting_desc {
     line-height: 1.5;
     border-radius: 3px;
 }
+
+.action {
+    display: flex;
+    justify-content: space-between
+}
+.action a {
+   margin:2px ;
+}
