@@ -14,7 +14,17 @@ class PlayersController extends Controller{
 
         $players = Player::all();
 
-        return view('admin.players.index', compact('players'));
+        $tournamentId = request('tournament', FALSE);
+        $playersInTournament = [];
+        if($tournamentId){
+            $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
+                $q->whereHas('tournaments', function($q) use ($tournamentId){
+                    $q->where('tournaments.id', $tournamentId);
+                });
+            })->get();
+        }
+
+        return view('admin.players.index', compact('players', 'playersInTournament'));
     }
 
     public function create(){

@@ -9,6 +9,55 @@
             </div>
         </div>
     @endcan
+
+
+    @if(request()->has('tournament'))
+
+        <div id="tournamentPlayerCard" class="card">
+            <div class="card-header">
+                Registered PLayer In <span class="btn btn-sm btn-warning"> {{  request()->tournament }}</span>
+                Tournament
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="player_in_tournament_tbl"
+                           class=" text-capitalize table table-bordered table-striped table-hover datatable ">
+                        <thead style="white-space: nowrap">
+                        <tr>
+                            <th></th>
+                            <th> Player Id</th>
+                            <th> Name</th>
+                            <th> Father Name</th>
+
+
+                        </tr>
+
+                        </thead>
+                        <tbody>
+
+
+                        @foreach ($playersInTournament as $key => $player)
+                            <tr data-entry-id="{{ $player->id }}">
+                                <td></td>
+
+                                <td>  {{ $player->id ?? '' }}</td>
+
+                                <td>
+                                    {{ $player->full_name ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->father_name ?? '' }}
+                                </td>
+
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="card">
         <div class="card-header">
             {{ trans('global.player.title_singular') }} {{ trans('global.list') }}
@@ -16,7 +65,8 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class=" text-capitalize table table-bordered table-striped table-hover datatable">
+                <table id="player_list_tbl"
+                       class=" text-capitalize table table-bordered table-striped table-hover datatable">
                     <thead style="white-space: nowrap">
                     <tr>
                         <th></th>
@@ -116,22 +166,25 @@
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
-                                    @can('player_edit')
-                                        <a class="btn btn-xs btn-info"
-                                           href="{{ route('admin.players.edit', $player->id) }}">
-                                            {{ trans('global.edit') }}
-                                        </a>
-                                    @endcan
-                                    @can('player_delete')
-                                        <form action="{{ route('admin.players.destroy', $player->id) }}" method="POST"
-                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                              style="display: inline-block;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-xs btn-danger"
-                                                   value="{{ trans('global.delete') }}">
-                                        </form>
-                                    @endcan
+                                    @if(!request()->has('tournament'))
+                                        @can('player_edit')
+                                            <a class="btn btn-xs btn-info"
+                                               href="{{ route('admin.players.edit', $player->id) }}">
+                                                {{ trans('global.edit') }}
+                                            </a>
+                                        @endcan
+                                        @can('player_delete')
+                                            <form action="{{ route('admin.players.destroy', $player->id) }}"
+                                                  method="POST"
+                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                  style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" class="btn btn-xs btn-danger"
+                                                       value="{{ trans('global.delete') }}">
+                                            </form>
+                                        @endcan
+                                    @endif
                                 </div>
 
                             </td>
@@ -143,10 +196,14 @@
             </div>
         </div>
     </div>
+
+
 @section('scripts')
 
     <script>
         $(function () {
+            const tournamentReg = (new URLSearchParams(window.location.search)).has('tournament');
+
             $('form.player_approval').submit(function (event) {
                 event.preventDefault(); // Prevent the form from submitting via the browser
                 var form = $(this);
@@ -166,46 +223,52 @@
                     // Optionally alert the user of an error here...
                 });
             });
-            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons);
+
+
+            let dtButtonsPlayerList = $.extend(true, [], $.fn.dataTable.defaults.buttons);
+            let dtButtonsTournamentPlayer = $.extend(true, [], $.fn.dataTable.defaults.buttons);
 
             // delete button
-                @can('player_delete')
-            let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-            let deleteButton = {
-                text: deleteButtonTrans,
-                url: "{{ route('admin.players.massDestroy') }}",
-                className: 'btn-danger',
-                action: function (e, dt, node, config) {
-                    const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
-                        return $(entry).data('entry-id')
-                    });
 
-                    if (ids.length === 0) {
-                        alert('{{ trans('global.datatables.zero_selected') }}')
+            @can('player_delete')
+            if (!tournamentReg) {
+                let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+                let deleteButton = {
+                    text: deleteButtonTrans,
+                    url: "{{ route('admin.players.massDestroy') }}",
+                    className: 'btn-danger',
+                    action: function (e, dt, node, config) {
+                        const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                            return $(entry).data('entry-id')
+                        });
 
-                        return
-                    }
+                        if (ids.length === 0) {
+                            alert('{{ trans('global.datatables.zero_selected') }}')
 
-                    if (confirm('{{ trans('global.areYouSure') }}')) {
-                        $.ajax({
-                            headers: {'x-csrf-token': _token},
-                            method: 'POST',
-                            url: config.url,
-                            data: {ids: ids, _method: 'DELETE'}
-                        })
-                            .done(function () {
-                                location.reload()
+                            return
+                        }
+
+                        if (confirm('{{ trans('global.areYouSure') }}')) {
+                            $.ajax({
+                                headers: {'x-csrf-token': _token},
+                                method: 'POST',
+                                url: config.url,
+                                data: {ids: ids, _method: 'DELETE'}
                             })
+                                .done(function () {
+                                    location.reload()
+                                })
+                        }
                     }
-                }
-            };
-            dtButtons.push(deleteButton)
+                };
+                dtButtonsPlayerList.push(deleteButton)
+            }
             @endcan
 
             // register tournament player
             @can('register_tournament_player')
 
-            if ((new URLSearchParams(window.location.search)).has('tournament')) {
+            if (tournamentReg) {
                 let addButtonTrans = 'Register Selected Player';
                 let addButton = {
                     text: addButtonTrans,
@@ -232,15 +295,48 @@
                         }
                     }
                 };
-                dtButtons.push(addButton);
+                dtButtonsPlayerList.push(addButton);
+
+                let removeButtonTrans = 'Remove Selected Player';
+                let removeButton = {
+                    text: removeButtonTrans,
+                    title: 'Remove Player from tournament',
+                    url: "{{ route('admin.tournament.register') }}",
+                    className: 'btn-danger',
+                    action: function (e, dt, node, config) {
+                        const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                            return $(entry).data('entry-id')
+                        });
+                        if (ids.length === 0) {
+                            alert('{{ trans('global.datatables.zero_selected') }}')
+                            return
+                        }
+                        if (confirm('{{ trans('global.areYouSure') }}')) {
+                            $.ajax({
+                                headers: {'x-csrf-token': _token},
+                                method: 'POST',
+                                url: config.url,
+                                data: {ids: ids, _method: 'POST'}
+                            })
+                                .done(function () {
+                                    location.reload()
+                                })
+                        }
+                    }
+                };
+                dtButtonsTournamentPlayer.push(removeButton);
             }
 
             @endcan
 
 
 
-            $('.datatable:not(.ajaxTable)').DataTable({
-                buttons: dtButtons
+            $('#player_list_tbl').DataTable({
+                buttons: dtButtonsPlayerList
+            })
+            $('#player_in_tournament_tbl').DataTable({
+                buttons: dtButtonsTournamentPlayer,
+
             })
         });
     </script>

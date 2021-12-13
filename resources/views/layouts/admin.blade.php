@@ -111,17 +111,20 @@
             'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json'
         };
 
-        const searchTr = $('.datatable:not(.ajaxTable) thead > tr').clone().addClass('search-tr');
-        $('.datatable:not(.ajaxTable) thead').append(searchTr);
+        $('.datatable:not(.ajaxTable)').each(function () {
+            const searchTr = $('thead > tr', this).clone().addClass('search-tr');
+            $('thead', this).append(searchTr);
 
-        $('th', searchTr).each(function () {
-            let title = $(this).text().trim();
+            $('th', searchTr).each(function () {
+                let title = $(this).text().trim();
 
-            if (title != "") {
+                if (title != "") {
 
-                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-            }
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                }
+            });
         });
+
 
         $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {className: 'btn'})
         $.extend(true, $.fn.dataTable.defaults, {
