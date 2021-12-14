@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyPlayerRequest;
 use App\Http\Requests\StorePlayerRequest;
@@ -15,16 +16,19 @@ class PlayersController extends Controller{
         $players = Player::all();
 
         $tournamentId = request('tournament', FALSE);
-        $playersInTournament = [];
+        $playersInTournament = $category_list =[];
         if($tournamentId){
             $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
                 $q->whereHas('tournaments', function($q) use ($tournamentId){
                     $q->where('tournaments.id', $tournamentId);
                 });
             })->get();
+
+
+            $category_list = Category::all();
         }
 
-        return view('admin.players.index', compact('players', 'playersInTournament'));
+        return view('admin.players.index', compact('players', 'playersInTournament', 'category_list'));
     }
 
     public function create(){

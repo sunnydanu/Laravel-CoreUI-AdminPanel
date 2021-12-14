@@ -26,6 +26,7 @@
                         <thead style="white-space: nowrap">
                         <tr>
                             <th></th>
+                            <th> Reg Id</th>
                             <th> Player Id</th>
                             <th> Name</th>
                             <th> Father Name</th>
@@ -38,9 +39,10 @@
 
 
                         @foreach ($playersInTournament as $key => $player)
-                            <tr data-entry-id="{{ $player->id }}">
+                            <tr data-entry-id="{{ $player->tournaments->first()->pivot->id }}">
                                 <td></td>
 
+                                <td>  {{ $player->tournaments->first()->pivot->id?? '' }}</td>
                                 <td>  {{ $player->id ?? '' }}</td>
 
                                 <td>
@@ -89,6 +91,9 @@
                     </thead>
                     <tbody>
                     @foreach ($players as $key => $player)
+                        @if ($player->tournaments->pluck('id')->contains(request()->tournament))
+                            @continue
+                        @endif
                         <tr data-entry-id="{{ $player->id }}">
                             <td>
 
@@ -203,6 +208,7 @@
     <script>
         $(function () {
             const tournamentReg = (new URLSearchParams(window.location.search)).has('tournament');
+            const tournamentCode = (new URLSearchParams(window.location.search)).get('tournament');
 
             $('form.player_approval').submit(function (event) {
                 event.preventDefault(); // Prevent the form from submitting via the browser
@@ -262,6 +268,7 @@
                     }
                 };
                 dtButtonsPlayerList.push(deleteButton)
+
             }
             @endcan
 
@@ -269,16 +276,61 @@
             @can('register_tournament_player')
 
             if (tournamentReg) {
+
+                // select player gender
+                dtButtonsPlayerList.push({
+                    text: `<select id="gender" class="form-control">
+                                <option value="">Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>`,
+                });
+
+
+                // select player  category
+                const categoryListTemplate = `<select id="category_id" name="category" class="form-control">
+                            <option value="">Choose Category</option>
+                            @foreach($category_list  as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+
+                    </select>`
+                dtButtonsPlayerList.push({
+                    text: categoryListTemplate,
+                });
+
+                // Register Player button
+
                 let addButtonTrans = 'Register Selected Player';
                 let addButton = {
                     text: addButtonTrans,
                     url: "{{ route('admin.tournament.register') }}",
                     className: 'btn-success',
                     action: function (e, dt, node, config) {
-                        const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
-                            return $(entry).data('entry-id')
+
+                        const gender = $('#gender').val();
+                        const category_id = $('#category_id').val();
+
+                        if (gender.trim().length === 0) {
+                            alert('select gender')
+                            return
+                        }
+                        if (category_id.trim().length === 0) {
+                            alert('select category under players will be played')
+                            return
+                        }
+                        const playerForms = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                            return {
+                                id: uuidv4(),
+                                'player_id': $(entry).data('entry-id'),
+                                "tournament_id": tournamentCode,
+                                gender,
+                                category_id,
+                                "user_id": "{{auth()->id()}}",
+                            }
                         });
-                        if (ids.length === 0) {
+                        console.log(playerForms)
+                        if (playerForms.length === 0) {
                             alert('{{ trans('global.datatables.zero_selected') }}')
                             return
                         }
@@ -287,30 +339,35 @@
                                 headers: {'x-csrf-token': _token},
                                 method: 'POST',
                                 url: config.url,
-                                data: {ids: ids, _method: 'POST'}
+                                data: {playerForms},
+                                success: function (resp) {
+                                    alert('Player Registered Successfully')
+                                }
+                            }).done(function () {
+                                location.reload()
                             })
-                                .done(function () {
-                                    location.reload()
-                                })
                         }
                     }
                 };
                 dtButtonsPlayerList.push(addButton);
 
+
                 let removeButtonTrans = 'Remove Selected Player';
                 let removeButton = {
                     text: removeButtonTrans,
                     title: 'Remove Player from tournament',
-                    url: "{{ route('admin.tournament.register') }}",
+                    url: "{{ route('admin.tournament.removePlayerFromTournament') }}",
                     className: 'btn-danger',
                     action: function (e, dt, node, config) {
                         const ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
                             return $(entry).data('entry-id')
                         });
+
                         if (ids.length === 0) {
                             alert('{{ trans('global.datatables.zero_selected') }}')
                             return
                         }
+
                         if (confirm('{{ trans('global.areYouSure') }}')) {
                             $.ajax({
                                 headers: {'x-csrf-token': _token},

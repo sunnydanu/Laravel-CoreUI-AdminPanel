@@ -50,6 +50,6 @@ class Player extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     function tournaments(){
-        return $this->belongsToMany(Tournament::class, TournamentPlayer::class);
+        return $this->belongsToMany(Tournament::class, TournamentPlayer::class)->withPivot('id');
     }
 }

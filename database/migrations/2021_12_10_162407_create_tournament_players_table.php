@@ -18,7 +18,7 @@ class CreateTournamentPlayersTable extends Migration{
             $table->string('player_id', '20');
             $table->string('gender', '20');
             $table->string('category_id', '20');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

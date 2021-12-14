@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('players', 'PlayersController');
     Route::resource('tournaments', 'TournamentsController');
 
-    Route::post('tournament/register-player', 'TournamentsController@register')->name('tournament.register');
+    Route::post('tournament/register-player', 'TournamentsController@registerPlayer')->name('tournament.register');
+    Route::POST('tournament/remove-player', 'TournamentsController@removePlayer')->name('tournament.removePlayerFromTournament');
     Route::post('tournament/draw', 'TournamentsController@register')->name('tournament.draw');
 });
