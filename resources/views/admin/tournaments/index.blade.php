@@ -58,7 +58,7 @@
                                 @endcan
                                 @can('view_tournament_draw')
                                     <a class="btn btn-xs btn-dark"
-                                       href="{{ route('admin.tournament.draw', $tournament->id) }}">
+                                       href="{{ route('admin.tournament.draw', ['tournament'=> $tournament->id]) }}">
                                         Draw
                                     </a> &nbsp;
                                 @endcan

@@ -91,9 +91,9 @@
                     </thead>
                     <tbody>
                     @foreach ($players as $key => $player)
-                        @if ($player->tournaments->pluck('id')->contains(request()->tournament))
-                            @continue
-                        @endif
+                        {{--@if ($player->tournaments->pluck('id')->contains(request()->tournament))--}}
+                            {{--@continue--}}
+                        {{--@endif--}}
                         <tr data-entry-id="{{ $player->id }}">
                             <td>
 

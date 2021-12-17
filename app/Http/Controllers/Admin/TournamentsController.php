@@ -10,6 +10,7 @@ use App\Http\Requests\MassTournamentPlayerRegisterRequest;
 use App\Http\Requests\RemovePlayerFromTournamentRequest;
 use App\Http\Requests\StoreTournamentRequest;
 use App\Http\Requests\UpdateTournamentRequest;
+use App\Player;
 use App\Tournament;
 use App\TournamentPlayer;
 use Illuminate\Support\Str;
@@ -21,6 +22,22 @@ class TournamentsController extends Controller{
         $tournaments = Tournament::all();
 
         return view('admin.tournaments.index', compact('tournaments'));
+    }
+
+    public function draw(){
+        abort_unless(\Gate::allows('player_access'), 403);
+
+        $players = Player::all();
+
+        $tournamentId = request('tournament', FALSE);
+
+        $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
+            $q->whereHas('tournaments', function($q) use ($tournamentId){
+                $q->where('tournaments.id', $tournamentId);
+            });
+        })->get();
+
+        return view('admin.tournaments.draw', compact('playersInTournament'));
     }
 
     public function create(){
