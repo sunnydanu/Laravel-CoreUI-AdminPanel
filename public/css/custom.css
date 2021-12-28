@@ -93,6 +93,13 @@ table.dataTable thead .sorting_desc {
     display: flex;
     justify-content: space-between
 }
+
 .action a {
-   margin:2px ;
+    margin: 2px;
+}
+
+.tournament-bracket {
+
+    border: solid 2px #eee;
+    padding: 27px;
 }

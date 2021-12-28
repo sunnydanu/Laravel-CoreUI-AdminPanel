@@ -40,6 +40,15 @@ class TournamentsController extends Controller{
         return view('admin.tournaments.draw', compact('playersInTournament'));
     }
 
+    public function renderDraw(){
+        $category_list = Category::all();
+        return view("draws.index", compact('category_list'));
+    }
+
+    public function storeDraw(){
+        dd(request()->all());
+    }
+
     public function create(){
         abort_unless(\Gate::allows('tournament_create'), 403);
 
