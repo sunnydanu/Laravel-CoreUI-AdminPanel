@@ -12,6 +12,7 @@ use App\Http\Requests\StoreTournamentRequest;
 use App\Http\Requests\UpdateTournamentRequest;
 use App\Player;
 use App\Tournament;
+use App\TournamentDraw;
 use App\TournamentPlayer;
 use Illuminate\Support\Str;
 
@@ -31,13 +32,15 @@ class TournamentsController extends Controller{
 
         $tournamentId = request('tournament', FALSE);
 
+        $tournament = Tournament::find($tournamentId);
+
         $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
             $q->whereHas('tournaments', function($q) use ($tournamentId){
                 $q->where('tournaments.id', $tournamentId);
             });
         })->get();
 
-        return view('admin.tournaments.draw', compact('playersInTournament'));
+        return view('admin.tournaments.draw', compact('playersInTournament','tournament'));
     }
 
     public function renderDraw(){
@@ -46,7 +49,23 @@ class TournamentsController extends Controller{
     }
 
     public function storeDraw(){
-        dd(request()->all());
+        $response = ['status' => '0'];
+
+        try{
+            $data = request()->except(['_token']);
+            $data['status'] = 1;
+
+            $data['code'] = $data['name'];
+            $data['result'] = 'TBA';
+
+            $tournament = TournamentDraw::create($data);
+
+            $response = ['status' => '1', 'tournament' => $tournament];
+        }catch(\Exception $exception){
+            $response['error'] = $exception->getMessage();
+        }
+
+        return response()->json($response, 201);
     }
 
     public function create(){

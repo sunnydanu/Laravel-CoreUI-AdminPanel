@@ -36,4 +36,11 @@ class Tournament extends Model{
     function players(){
         return $this->belongsToMany(Player::class, TournamentPlayer::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    function draws(){
+        return $this->hasMany(TournamentDraw::class);
+    }
 }

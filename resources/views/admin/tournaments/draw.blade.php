@@ -63,6 +63,7 @@
                         <tr>
                             <th></th>
                             <th> Draw Id</th>
+                            <th> Name</th>
                             <th> Type</th>
                             <th> Result</th>
                             <th></th>
@@ -72,18 +73,19 @@
                         <tbody>
 
 
-                        @foreach ($playersInTournament as $key => $player)
-                            <tr data-entry-id="{{ $player->tournaments->first()->pivot->id }}">
+                        @foreach ($tournament->draws as $key => $draw)
+                            <tr data-entry-id="{{ $draw->id }}">
                                 <td></td>
 
-                                <td>  {{ $player->tournaments->first()->pivot->id?? '' }}</td>
-                                <td>  {{ $player->id ?? '' }}</td>
+                                <td>  {{ $draw->id?? '' }}</td>
+                                <td>  {{ $draw->name ?? '' }}</td>
+                                <td>  {{ $draw->gender ?? '' }} {{ $draw->category_id ?? '' }}</td>
 
                                 <td>
-                                    {{ $player->full_name ?? '' }}
+                                    {{ $draw->result ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $player->father_name ?? '' }}
+                                    <span class="btn btn-success btn-xs">View</span>
                                 </td>
 
                             </tr>
@@ -153,7 +155,9 @@
         $(function () {
 
             $('#draw-container .generate').on('click', function () {
-                const url = '{{ route("admin.tournament.render.draw", ":id") }}'.replace(':id', $('#draw-length').val());
+                const url = '{{ route("admin.tournament.render.draw", ['draw'=>":draw","tournament"=>":tournament"]) }}'
+                    .replace(':draw', $('#draw-length').val())
+                    .replace(':tournament', '{{ request()->tournament}}');
                 $('.tournament-bracket').show().find('iframe').attr('src', `${url}`);
             });
             let dtButtonsTournamentPlayer = $.extend(true, [], $.fn.dataTable.defaults.buttons);
