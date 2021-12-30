@@ -13,6 +13,7 @@ class TournamentDraw extends Model{
         'gender',
         'category_id',
         'name',
+        'size',
         'bracket',
         'status',
         'result',

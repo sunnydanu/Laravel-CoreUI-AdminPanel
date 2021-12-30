@@ -14,15 +14,32 @@
 </head>
 
 <body>
+
+@php
+    $action = $draw->get('action');
+    $detail = (object)['category_id'=>'','gender'=>''];
+    $bracket = [];
+        if($action ===  'view'){
+            $detail = $draw->get('detail');
+           $bracket  = $draw->get('detail')->bracket;
+        }
+@endphp
 <form id="submit-draw" action="{{ route("admin.tournament.draw.store") }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="col-12" style="display: flex; justify-content: space-around;
     margin-bottom: 55px;
     align-items:center">
-        <input type="hidden" name="tournament_id" value="{{ request()->tournament}}">
+        <input type="hidden" name="tournament_id" value="{{ $draw->get('tournament')}}">
+        <input type="hidden" name="size" value="{{ $draw->get('size')}}">
+        <input type="hidden" name="action" value="{{ $draw->get('action')}}">
+        @if(request()->has('drawId'))
+            <input type="hidden" name="drawId" value="{{ $detail->id}}">
+        @endif
+
         <div class="form-group">
             <label for="draw-name" class="form-label">Name</label>
             <input required id="draw-name" name="name" type="text"
+                   value="{{$detail->name??''}}"
                    class="form-control">
         </div>
         <div class="form-group">
@@ -32,6 +49,9 @@
                 <option value="">Choose Category</option>
                 @foreach($category_list  as $category)
                     <option
+                        @if($detail->category_id === $category->code)
+                        selected="selected"
+                        @endif
                         value="{{$category->code}}">{{$category->name}}</option>
                 @endforeach
 
@@ -44,8 +64,14 @@
 
             <select required id="gender" name="gender" class="form-control">
                 <option value="">Choose gender</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
+                <option @if($detail->gender === 'men')
+                        selected="selected"
+                        @endif value="men">Men
+                </option>
+                <option @if($detail->gender === 'women')
+                        selected="selected"
+                        @endif value="women">Women
+                </option>
 
             </select>
         </div>
@@ -59,9 +85,10 @@
     </div>
 
     <hr style="width: 98%;">
-    @include('draws.draw-'.request('draw'))
+    @include("draws.draw-".$draw->get('size'))
 
 </form>
+
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -69,17 +96,44 @@
 </script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script>
+
     $(function () {
+
+
+        let action = `{{$draw->get('action')}}`;
+        let bracket = {};
+        console.log(action);
+        if (action === 'view') {
+            bracket = '<?=  json_encode($bracket) ?>';
+            console.log(JSON.parse(bracket));
+            bracket = JSON.parse(bracket);
+        }
+
+        const main = $('.main-wrap');
+
         // Add round input
         $('.round').each(function () {
             const round = this;
-            $(this).prepend($('<input/>', {type: 'hidden', name: `bracket[${round.id}]`, id: this.id}))
+            const roundInput = $('<input/>', {type: 'hidden', name: `bracket[${round.id}]`, id: this.id});
+            if (action === 'view') {
+                $(roundInput, main).val(bracket[roundInput.id]);
+
+            }
+            $(this).prepend(roundInput);
+
+
             $('.ip-box  input', this).each(function () {
                 const player = this;
                 const playerId = `${round.id}-${player.id}`;
-                $(this).attr({'name': `bracket[${playerId}]`, "data-pid": playerId})
+                $(this).attr({'name': `bracket[${playerId}]`, "data-pid": playerId});
+
+                if (action === 'view') {
+                    $(player, main).val(bracket[playerId]);
+
+                }
             })
         });
+
 
         $('#draw-name').on('keyup', function (e) {
             //alert("key up");

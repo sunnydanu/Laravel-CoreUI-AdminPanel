@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div id="draw-section" class="card">
         <div class="card-header">
             <span class="btn btn-sm btn-warning"> {{  request()->tournament }}</span>
             Draw
@@ -85,7 +85,8 @@
                                     {{ $draw->result ?? '' }}
                                 </td>
                                 <td>
-                                    <span class="btn btn-success btn-xs">View</span>
+                                    <span class="btn btn-success btn-xs load-draw"
+                                          id="{{ $draw->id?? '' }}">View</span>
                                 </td>
 
                             </tr>
@@ -105,10 +106,6 @@
                             @csrf
                             <div class="form-group">
                                 <label class="form-label col-md-3" style=" float: left;">Select Draw Length*</label>
-                                {{--<input class="form-control col-md-4" id="draw-length" type="number" name="draw-length"--}}
-                                {{--required="" style="--}}
-                                {{--float: left;--}}
-                                {{--">--}}
 
                                 <select name="draw-length" class="form-control col-md-4 pull-left" id="draw-length">
                                     <option value="0">Select Draw</option>
@@ -154,10 +151,16 @@
 
         $(function () {
 
-            $('#draw-container .generate').on('click', function () {
-                const url = '{{ route("admin.tournament.render.draw", ['draw'=>":draw","tournament"=>":tournament"]) }}'
-                    .replace(':draw', $('#draw-length').val())
-                    .replace(':tournament', '{{ request()->tournament}}');
+            $('#draw-section .generate,#draw-section .load-draw').on('click', function () {
+                let url = '{{ route("admin.tournament.render.draw") }}/?';
+
+                if ($(this).hasClass('load-draw')) {
+                    console.log('load-draw');
+                    url += `drawId=${this.id}`;
+                }
+                if ($(this).hasClass('generate')) {
+                    url += `size=${$('#draw-length').val()}&tournament={{ request()->tournament}}`;
+                }
                 $('.tournament-bracket').show().find('iframe').attr('src', `${url}`);
             });
             let dtButtonsTournamentPlayer = $.extend(true, [], $.fn.dataTable.defaults.buttons);

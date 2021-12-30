@@ -40,27 +40,51 @@ class TournamentsController extends Controller{
             });
         })->get();
 
-        return view('admin.tournaments.draw', compact('playersInTournament','tournament'));
+        return view('admin.tournaments.draw', compact('playersInTournament', 'tournament'));
     }
 
     public function renderDraw(){
+        $draw = collect();
         $category_list = Category::all();
-        return view("draws.index", compact('category_list'));
+
+        if(request()->has('drawId')){
+            $drawDetail = TournamentDraw::find(request('drawId'));
+            $draw->put('detail', $drawDetail);
+            $draw->put('size', $drawDetail->size);
+            $draw->put('tournament', $drawDetail->tournament_id);
+            $draw->put('action', 'view');
+        }else{
+            $draw->put('action', 'create');
+            $draw->put('size', request('size'));
+            $draw->put('tournament', request('tournament'));
+        }
+
+        return view("draws.index", compact('category_list', 'draw'));
     }
 
     public function storeDraw(){
         $response = ['status' => '0'];
 
         try{
+            $tournament = [];
             $data = request()->except(['_token']);
-            $data['status'] = 1;
+            if(request('action') == 'create'){
+                $data['status'] = 1;
+                $data['result'] = 'TBA';
+                $tournament = TournamentDraw::create($data);
+            }
+            if(request('action') == 'view'){
 
-            $data['code'] = $data['name'];
-            $data['result'] = 'TBA';
+                $tournament = TournamentDraw::find($data['drawId']);
 
-            $tournament = TournamentDraw::create($data);
+                $tournament->bracket = $data['bracket'];
+                $tournament->name = $data['name'];
+                $tournament->gender = $data['gender'];
+                $tournament->category_id = $data['category_id'];
+                $tournament->save();
+            }
 
-            $response = ['status' => '1', 'tournament' => $tournament];
+            $response = ['status' => '1', 'tournamentId' => $tournament->id];
         }catch(\Exception $exception){
             $response['error'] = $exception->getMessage();
         }

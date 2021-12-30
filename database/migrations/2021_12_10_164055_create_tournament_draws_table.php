@@ -17,7 +17,7 @@ class CreateTournamentDrawsTable extends Migration{
             $table->string('gender', '20');
             $table->string('category_id', '20');
             $table->string('name', '50');
-            $table->string('code', '50');
+            $table->tinyInteger('size');
             $table->longText('bracket');
             $table->longText('result');
             $table->tinyInteger('status');
