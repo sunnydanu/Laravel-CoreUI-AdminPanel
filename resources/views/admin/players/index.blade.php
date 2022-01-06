@@ -11,6 +11,7 @@
     @endcan
 
 
+
     @if(request()->has('tournament'))
 
         <div id="tournamentPlayerCard" class="card">
@@ -60,147 +61,173 @@
             </div>
         </div>
     @endif
-    <div class="card">
-        <div class="card-header">
-            {{ trans('global.player.title_singular') }} {{ trans('global.list') }}
-        </div>
+    @if(!request()->has('tournament') ||  auth()->user()->hasRole('district'))
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="player_list_tbl"
-                       class=" text-capitalize table table-bordered table-striped table-hover datatable">
-                    <thead style="white-space: nowrap">
-                    <tr>
-                        <th></th>
-                        <th> Player Id</th>
-                        <th style="width: 5px"> Name</th>
-                        <th> Father Name</th>
-                        <th> gender</th>
-                        <th> dob</th>
-                        <th> category</th>
-                        <th> phone</th>
-                        <th> email</th>
-                        <th> district-approval</th>
-                        <th> state-approval</th>
-                        <th>In Tournament</th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
+        <div class="card">
+            <div class="card-header">
+                {{ trans('global.player.title_singular') }} {{ trans('global.list') }}
+            </div>
 
-                    </thead>
-                    <tbody>
-                    @foreach ($players as $key => $player)
-                        {{--@if ($player->tournaments->pluck('id')->contains(request()->tournament))--}}
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="player_list_tbl"
+                           class=" text-capitalize table table-bordered table-striped table-hover datatable">
+                        <thead style="white-space: nowrap">
+                        <tr>
+                            <th></th>
+                            <th> Player Id</th>
+                            <th style="width: 5px"> Name</th>
+                            <th> Father Name</th>
+                            <th> gender</th>
+                            <th> dob</th>
+                            <th> category</th>
+                            <th> phone</th>
+                            <th> email</th>
+                            <th> district-approval</th>
+                            <th> state-approval</th>
+                            @if(auth()->user()->hasRole('state'))
+                                <th> IsPaid</th>
+                            @endif
+                            <th>In Tournament</th>
+                            <th>
+                                &nbsp;
+                            </th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        @foreach ($players as $key => $player)
+                            {{--@if ($player->tournaments->pluck('id')->contains(request()->tournament))--}}
                             {{--@continue--}}
-                        {{--@endif--}}
-                        <tr data-entry-id="{{ $player->id }}">
-                            <td>
+                            {{--@endif--}}
+                            <tr data-entry-id="{{ $player->id }}">
+                                <td>
 
-                            </td>
+                                </td>
 
-                            <td>  {{ $player->id ?? '' }}</td>
+                                <td>  {{ $player->id ?? '' }}</td>
 
-                            <td>
-                                {{ $player->full_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $player->father_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $player->gender ?? '' }}
-                            </td>
-                            <td>
-                                {{ $player->dob ?? '' }}
-                            </td>
-                            <td>
-                                {{ $player->category ?? '' }}
-                            </td>
+                                <td>
+                                    {{ $player->full_name ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->father_name ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->gender ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->dob ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->category ?? '' }}
+                                </td>
 
-                            <td>
-                                {{ $player->phone ?? '' }}
-                            </td>
-                            <td>
-                                {{ $player->email ?? '' }}
-                            </td>
-                            <td>
-                                <form class="player_approval"
-                                      action="{{ route('admin.player.approval', $player->id) }}" method="POST">
-                                    @csrf
+                                <td>
+                                    {{ $player->phone ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->email ?? '' }}
+                                </td>
+                                <td>
+                                    <form class="player_approval"
+                                          action="{{ route('admin.player.approval', $player->id) }}" method="POST">
+                                        @csrf
 
-                                    @if ($player->district_approval)
-                                        <span class="btn btn-success btn-xs ">Approved</span>
-                                    @elseif (auth()->user()->hasRole('district'))
-                                        <button type="submit" title="Click to verifiy"
-                                                class="btn btn-danger btn-xs action">Pending
-                                        </button>
-                                    @else
-                                        <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
-                                    @endif
+                                        @if ($player->district_approval)
+                                            <span class="btn btn-success btn-xs ">Approved</span>
+                                        @elseif (auth()->user()->hasRole('district'))
+                                            <button type="submit" title="Click to verifiy"
+                                                    class="btn btn-danger btn-xs action">Pending
+                                            </button>
+                                        @else
+                                            <span title="Waiting for approval"
+                                                  class="btn btn-info btn-xs">Waiting</span>
+                                        @endif
 
-                                </form>
-                            </td>
-                            <td>
-                                <form class="player_approval"
-                                      action="{{ route('admin.player.approval', $player->id) }}" method="POST">
-                                    @csrf
-                                    @if ($player->state_approval)
-                                        <span class="btn btn-success btn-xs">Approved</span>
-                                    @elseif (auth()->user()->hasRole('state'))
-                                        <button type="submit" title="Click to verifiy"
-                                                class="btn btn-danger btn-xs action">Pending
-                                        </button>
-                                    @else
-                                        <span title="Waiting for approval" class="btn btn-info btn-xs">Waiting</span>
-                                    @endif
-                                </form>
-                            </td>
-                            <td>
-                                @if(isset($player->tournaments))
-                                    @foreach($player->tournaments as $tournament)
-                                        <span id="{{$tournament->id}}"
-                                              class="btn btn-xs btn-dark">{{$tournament->id}}</span>
-                                    @endforeach
+                                    </form>
+                                </td>
+                                <td>
+                                    <form class="player_approval"
+                                          action="{{ route('admin.player.approval', $player->id) }}" method="POST">
+                                        @csrf
+                                        @if ($player->state_approval)
+                                            <span class="btn btn-success btn-xs">Approved</span>
+                                        @elseif (auth()->user()->hasRole('state'))
+                                            <button type="submit" title="Click to verifiy"
+                                                    class="btn btn-danger btn-xs action">Pending
+                                            </button>
+                                        @else
+                                            <span title="Waiting for approval"
+                                                  class="btn btn-info btn-xs">Waiting</span>
+                                        @endif
+                                    </form>
+                                </td>
+                                @if(auth()->user()->hasRole('state'))
+                                    <td>
+                                        <form class="player_is_paid"
+                                              action="{{ route('admin.player.is_paid', $player->id) }}" method="POST">
+                                            @csrf
+                                            @if ($player->is_paid)
+                                                <button type="submit" title="Click to unpaid"
+                                                        class="btn btn-success btn-xs action">Paid
+                                                </button>
+
+                                            @else
+                                                <button type="submit" title="Click to paid"
+                                                        class="btn btn-danger btn-xs action">Un-paid
+                                                </button>
+                                            @endif
+                                        </form>
+                                    </td>
                                 @endif
-                            </td>
-                            <td>
-                                <div class="action">
-                                    @can('player_show')
-                                        <a class="btn btn-xs btn-primary"
-                                           href="{{ route('admin.players.show', $player->id) }}">
-                                            {{ trans('global.view') }}
-                                        </a>
-                                    @endcan
-                                    @if(!request()->has('tournament'))
-                                        @can('player_edit')
-                                            <a class="btn btn-xs btn-info"
-                                               href="{{ route('admin.players.edit', $player->id) }}">
-                                                {{ trans('global.edit') }}
+                                <td>
+                                    @if(isset($player->tournaments))
+                                        @foreach($player->tournaments as $tournament)
+                                            <span id="{{$tournament->id}}"
+                                                  class="btn btn-xs btn-dark">{{$tournament->id}}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="action">
+                                        @can('player_show')
+                                            <a class="btn btn-xs btn-primary"
+                                               href="{{ route('admin.players.show', $player->id) }}">
+                                                {{ trans('global.view') }}
                                             </a>
                                         @endcan
-                                        @can('player_delete')
-                                            <form action="{{ route('admin.players.destroy', $player->id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                  style="display: inline-block;">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input type="submit" class="btn btn-xs btn-danger"
-                                                       value="{{ trans('global.delete') }}">
-                                            </form>
-                                        @endcan
-                                    @endif
-                                </div>
+                                        @if(!request()->has('tournament'))
+                                            @can('player_edit')
+                                                <a class="btn btn-xs btn-info"
+                                                   href="{{ route('admin.players.edit', $player->id) }}">
+                                                    {{ trans('global.edit') }}
+                                                </a>
+                                            @endcan
+                                            @can('player_delete')
+                                                <form action="{{ route('admin.players.destroy', $player->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                      style="display: inline-block;">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <input type="submit" class="btn btn-xs btn-danger"
+                                                           value="{{ trans('global.delete') }}">
+                                                </form>
+                                            @endcan
+                                        @endif
+                                    </div>
 
-                            </td>
+                                </td>
 
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
 
 @section('scripts')
@@ -222,6 +249,30 @@
                     },
                     success: function (data) {
                         $('button.action', form).text('Approved').removeClass('btn-danger').addClass('btn-success');
+                    }
+                }).done(function (data) {
+                    // Optionally alert the user of success here...
+                }).fail(function (data) {
+                    // Optionally alert the user of an error here...
+                });
+            });
+            $('form.player_is_paid').submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting via the browser
+                var form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    error: function (jqXHR, textStatus, errorMessage) {
+                        console.log(errorMessage); // Optional
+                    },
+                    success: function (data) {
+                        if ($('button.action', form).hasClass('btn-danger')) {
+                            $('button.action', form).text('Paid').removeClass('btn-danger').addClass('btn-success');
+                        } else {
+                            $('button.action', form).text('un-paid').removeClass('btn-success').addClass('btn-danger');
+                        }
+
                     }
                 }).done(function (data) {
                     // Optionally alert the user of success here...

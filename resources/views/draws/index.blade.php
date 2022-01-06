@@ -84,6 +84,10 @@
         </div>
     </div>
 
+    <p class="text-danger">Enter player in following format: <b>sno-firstName:lastName-state</b> <br>
+        eg: <b>001-sunny:danu-jal</b>
+    </p>
+
     <hr style="width: 98%;">
     @include("draws.draw-".$draw->get('size'))
 
@@ -95,6 +99,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 </script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
 <script>
 
     $(function () {
@@ -125,7 +130,10 @@
             $('.ip-box  input', this).each(function () {
                 const player = this;
                 const playerId = `${round.id}-${player.id}`;
-                $(this).attr({'name': `bracket[${playerId}]`, "data-pid": playerId});
+                $(this).attr({
+                    'name': `bracket[${playerId}]`,
+                    "data-pid": playerId
+                });
 
                 if (action === 'view') {
                     $(player, main).val(bracket[playerId]);

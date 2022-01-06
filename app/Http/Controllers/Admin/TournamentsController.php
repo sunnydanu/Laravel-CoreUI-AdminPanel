@@ -74,7 +74,6 @@ class TournamentsController extends Controller{
                 $tournament = TournamentDraw::create($data);
             }
             if(request('action') == 'view'){
-
                 $tournament = TournamentDraw::find($data['drawId']);
 
                 $tournament->bracket = $data['bracket'];
@@ -96,8 +95,8 @@ class TournamentsController extends Controller{
         abort_unless(\Gate::allows('tournament_create'), 403);
 
         $district_list = District::all();
-        //        $category_list = Category::all();
-        return view('admin.tournaments.create', compact('district_list', 'category_list'));
+
+        return view('admin.tournaments.create', compact('district_list'));
     }
 
     public function store(StoreTournamentRequest $request){

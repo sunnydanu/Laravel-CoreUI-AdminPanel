@@ -10,6 +10,7 @@ Auth::routes(['register' => FALSE]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){
     Route::post('approval/{id}', 'PlayersController@approval')->name('player.approval');
+    Route::post('is_paid/{id}', 'PlayersController@isPaid')->name('player.is_paid');
 
     Route::get('/', 'HomeController@index')->name('home');
 

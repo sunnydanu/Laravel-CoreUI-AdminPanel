@@ -16,14 +16,13 @@ class PlayersController extends Controller{
         $players = Player::all();
 
         $tournamentId = request('tournament', FALSE);
-        $playersInTournament = $category_list =[];
+        $playersInTournament = $category_list = [];
         if($tournamentId){
             $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
                 $q->whereHas('tournaments', function($q) use ($tournamentId){
                     $q->where('tournaments.id', $tournamentId);
                 });
             })->get();
-
 
             $category_list = Category::all();
         }
@@ -73,6 +72,21 @@ class PlayersController extends Controller{
         $player->update($update);
 
         return response()->json(['success' => 1], 200);
+    }
+
+    public function isPaid($id){
+        abort_unless(\Gate::allows('player_edit'), 403);
+        $player = Player::findOrFail($id);
+        $update = [];
+        $resp = ['success' => 0];
+
+        $player->is_paid = (int)!$player->is_paid;
+
+        if($player->save()){
+            $resp = ['success' => 1];
+        }
+
+        return response()->json($resp, 200);
     }
 
     public function show(Player $player){

@@ -4,11 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Create1555355681975PlayersTable extends Migration
-{
-    public function up()
-    {
-        Schema::create('players', function (Blueprint $table) {
+class Create1555355681975PlayersTable extends Migration{
+    public function up(){
+        Schema::create('players', function(Blueprint $table){
             $table->uuid('id')->primary();
             $table->string('full_name', 20)->nullable();
             $table->string('father_name', 20)->nullable();
@@ -25,6 +23,7 @@ class Create1555355681975PlayersTable extends Migration
             $table->string('short_size', 20)->nullable();
             $table->string('tracksuite_size', 20)->nullable();
             $table->string('shoe_size', 20)->nullable();
+            $table->tinyInteger('is_paid')->default(0);
             $table->string('player_img', 20)->nullable();
             $table->string('dob_crt', 20)->nullable();
             $table->string('district_approval', 20)->nullable();
@@ -32,11 +31,12 @@ class Create1555355681975PlayersTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
+
+
         });
     }
 
-    public function down()
-    {
+    public function down(){
         Schema::dropIfExists('players');
     }
 }
