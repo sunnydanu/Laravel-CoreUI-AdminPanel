@@ -84,8 +84,8 @@
         </div>
     </div>
 
-    <p class="text-danger">Enter player in following format: <b>sno-firstName:lastName-state</b> <br>
-        eg: <b>001-sunny:danu-jal</b>
+    <p class="text-danger">Enter player in following format: <b>[playerId][playerName][state][score]</b> <br>
+        eg: <b>[9frEKdb9F][Demo Player][JAL][3 - 0 (8,7,4)]</b>
     </p>
 
     <hr style="width: 98%;">
@@ -122,7 +122,6 @@
             const roundInput = $('<input/>', {type: 'hidden', name: `bracket[${round.id}]`, id: this.id});
             if (action === 'view') {
                 $(roundInput, main).val(bracket[roundInput.id]);
-
             }
             $(this).prepend(roundInput);
 
@@ -137,7 +136,6 @@
 
                 if (action === 'view') {
                     $(player, main).val(bracket[playerId]);
-
                 }
             })
         });

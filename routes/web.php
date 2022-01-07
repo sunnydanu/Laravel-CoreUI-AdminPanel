@@ -5,6 +5,7 @@ Route::redirect('/', '/login');
 Route::redirect('/home', '/admin');
 Route::get('/player/register', 'PlayersController@create')->name('player.register');
 Route::post('/player/store', 'PlayersController@store')->name('player.store');
+Route::get('/draw/{drawId}', 'HomeController@viewDraw')->name('view.draw');
 
 Auth::routes(['register' => FALSE]);
 
