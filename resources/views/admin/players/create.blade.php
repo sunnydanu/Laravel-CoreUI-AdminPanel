@@ -45,8 +45,16 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Gender*</label>
-                                                    <input class="form-control" id="gender" type="text" name="gender"
-                                                           placeholder="Gender" required="">
+
+                                                    <select required="" class="form-control" id="gender" type="text"
+                                                            name="gender">
+                                                        <option value="" selected>Gender</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+
+                                                    {{--<input class="form-control" id="gender" type="text" name="gender"--}}
+                                                    {{--placeholder="Gender" required="">--}}
                                                 </div>
                                             </div>
                                             <div class="col-12">

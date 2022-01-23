@@ -96,49 +96,53 @@
                 </div>
             </div>
             <hr>
-            <div id="draw-container" class="render">
-                <h2>Create New Draw</h2>
-                <div class="row mt-2">
 
-                    <div class="col-md-12">
-                        <form action="{{ route('player.store') }}" method="POST"
-                              enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label class="form-label col-md-3" style=" float: left;">Select Draw Length*</label>
+            @can('create_tournament_draw')
+                <div id="draw-container" class="render">
+                    <h2>Create New Draw</h2>
+                    <div class="row mt-2">
 
-                                <select name="draw-length" class="form-control col-md-4 pull-left" id="draw-length">
-                                    <option value="0">Select Draw</option>
-                                    <option value="8">Draw 8</option>
-                                    <option value="16">Draw 16</option>
-                                    <option value="20">Draw 20</option>
-                                    <option value="24">Draw 24</option>
-                                    <option value="32">Draw 32</option>
-                                    <option value="40">Draw 40</option>
-                                    <option value="48">Draw 48</option>
-                                    <option value="64">Draw 64</option>
-                                    <option value="80">Draw 80</option>
-                                    <option value="96">Draw 96</option>
-                                    <option value="128">Draw 128</option>
+                        <div class="col-md-12">
+                            <form action="{{ route('player.store') }}" method="POST"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label class="form-label col-md-3" style=" float: left;">Select Draw Length*</label>
 
-                                </select>
-                                <button name="submit"
-                                        type="button" class="btn generate btn-block btn-success col-md-4"
-                                        value="submit" style=" float: right;">Generate
-                                </button>
-                            </div>
-                        </form>
+                                    <select name="draw-length" class="form-control col-md-4 pull-left" id="draw-length">
+                                        <option value="0">Select Draw</option>
+                                        <option value="8">Draw 8</option>
+                                        <option value="16">Draw 16</option>
+                                        <option value="20">Draw 20</option>
+                                        <option value="24">Draw 24</option>
+                                        <option value="32">Draw 32</option>
+                                        <option value="40">Draw 40</option>
+                                        <option value="48">Draw 48</option>
+                                        <option value="64">Draw 64</option>
+                                        <option value="80">Draw 80</option>
+                                        <option value="96">Draw 96</option>
+                                        <option value="128">Draw 128</option>
+
+                                    </select>
+                                    <button name="submit"
+                                            type="button" class="btn generate btn-block btn-success col-md-4"
+                                            value="submit" style=" float: right;">Generate
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-md-12">
-                        <div class="tournament-bracket" style="display: none">
-                            <iframe frameborder="0" scrolling="yes"
-                                    style="display:block; width:100%; height:100vh;"></iframe>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <div class="tournament-bracket" style="display: none">
+                                <iframe frameborder="0" scrolling="yes"
+                                        style="display:block; width:100%; height:100vh;"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+            @endcan
         </div>
     </div>
 
@@ -150,7 +154,7 @@
     <script>
 
         $(function () {
-
+            @can('create_tournament_draw')
             $('#draw-section .generate,#draw-section .load-draw').on('click', function () {
                 let url = '{{ route("admin.tournament.render.draw") }}/?';
 
@@ -163,6 +167,8 @@
                 }
                 $('.tournament-bracket').show().find('iframe').attr('src', `${url}`);
             });
+
+                @endcan
             let dtButtonsTournamentPlayer = $.extend(true, [], $.fn.dataTable.defaults.buttons);
             $('#player_in_tournament_tbl').DataTable({
                 buttons: dtButtonsTournamentPlayer,
