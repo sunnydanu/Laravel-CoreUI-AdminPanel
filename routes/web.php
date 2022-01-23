@@ -4,14 +4,15 @@ if($_SERVER["REMOTE_ADDR"] === '127.0.0.1'){
     Route::redirect('/', '/login');
     Route::redirect('/home', '/admin');
 }else{
-    Route::redirect('/', '/tournaments/login');
+    //    Route::redirect('/', '/tournaments/list');
+    Route::redirect('/login', '/tournaments/login');
     Route::redirect('/home', '/tournaments/admin');
 }
 
 Route::get('/player/register', 'PlayersController@create')->name('player.register');
 Route::post('/player/store', 'PlayersController@store')->name('player.store');
 Route::get('/draw/{drawId}', 'HomeController@viewDraw')->name('draw.view');
-Route::get('/list', 'HomeController@tournaments')->name('tournament.list');
+Route::get('/', 'HomeController@tournaments')->name('tournament.list');
 Route::get('/draw', 'HomeController@draw')->name('tournament.draw');
 
 Auth::routes(['register' => FALSE]);
