@@ -5,19 +5,17 @@ namespace App\Http\Requests;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
-{
-    public function authorize()
-    {
+class StoreUserRequest extends FormRequest{
+    public function authorize(){
         return \Gate::allows('user_create');
     }
 
-    public function rules()
-    {
+    public function rules(){
         return [
-            'name'     => [
+            'name' => [
                 'required',
             ],
+
             'email'    => [
                 'required',
             ],

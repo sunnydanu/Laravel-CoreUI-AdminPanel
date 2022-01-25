@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Role;
 use App\User;
+use App\District;
 
 class UsersController extends Controller{
     public function index(){
@@ -20,12 +21,16 @@ class UsersController extends Controller{
         return view('admin.users.index', compact('users'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(){
         abort_unless(\Gate::allows('user_create'), 403);
 
         $roles = Role::all()->pluck('title', 'id');
+        $district_list = District::all();
 
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create', compact('roles', 'district_list'));
     }
 
     public function store(StoreUserRequest $request){
@@ -41,10 +46,11 @@ class UsersController extends Controller{
         abort_unless(\Gate::allows('user_edit'), 403);
 
         $roles = Role::all()->pluck('title', 'id');
+        $district_list = District::all();
 
         $user->load('roles');
 
-        return view('admin.users.edit', compact('roles', 'user'));
+        return view('admin.users.edit', compact('roles', 'user', 'district_list'));
     }
 
     public function update(UpdateUserRequest $request, User $user){

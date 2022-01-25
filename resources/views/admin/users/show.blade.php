@@ -35,6 +35,14 @@
                 </tr>
                 <tr>
                     <th>
+                        District
+                    </th>
+                    <td>
+                        {{ $user->district ?? '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         Roles
                     </th>
                     <td>

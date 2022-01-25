@@ -13,7 +13,9 @@ class PlayersController extends Controller{
     public function index(){
         abort_unless(\Gate::allows('player_access'), 403);
 
-        $players = Player::all();
+        $players = Player::when(auth()->user()->hasRole('district'), function($q){
+            $q->where('players.district', auth()->user()->district);
+        })->get();
 
         $tournamentId = request('tournament', FALSE);
         $playersInTournament = $category_list = [];
@@ -22,6 +24,8 @@ class PlayersController extends Controller{
                 $q->whereHas('tournaments', function($q) use ($tournamentId){
                     $q->where('tournaments.id', $tournamentId);
                 });
+            })->when(auth()->user()->hasRole('district'), function($q){
+                $q->where('players.district', auth()->user()->district);
             })->get();
 
             $category_list = Category::all();

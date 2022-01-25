@@ -31,6 +31,7 @@
                             <th> Player Id</th>
                             <th> Name</th>
                             <th> Father Name</th>
+                            <th> District</th>
 
 
                         </tr>
@@ -51,6 +52,9 @@
                                 </td>
                                 <td>
                                     {{ $player->father_name ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->district ?? '' }}
                                 </td>
 
                             </tr>
@@ -80,6 +84,7 @@
                             <th> Father Name</th>
                             <th> gender</th>
                             <th> dob</th>
+                            <th> district</th>
                             <th> category</th>
                             <th> phone</th>
                             <th> email</th>
@@ -118,6 +123,9 @@
                                 </td>
                                 <td>
                                     {{ $player->dob ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->district ?? '' }}
                                 </td>
                                 <td>
                                     {{ $player->category ?? '' }}
