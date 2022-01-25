@@ -27,7 +27,9 @@ class UsersController extends Controller{
     public function create(){
         abort_unless(\Gate::allows('user_create'), 403);
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::when(auth()->user()->roles->first()->id != 1, function($q){
+            return $q->where('id', '!=', 1);
+        })->get()->pluck('title', 'id');
         $district_list = District::all();
 
         return view('admin.users.create', compact('roles', 'district_list'));
@@ -45,7 +47,9 @@ class UsersController extends Controller{
     public function edit(User $user){
         abort_unless(\Gate::allows('user_edit'), 403);
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::when(auth()->user()->roles->first()->id != 1, function($q){
+            return $q->where('id', '!=', 1);
+        })->get()->pluck('title', 'id');
         $district_list = District::all();
 
         $user->load('roles');
