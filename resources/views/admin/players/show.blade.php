@@ -20,6 +20,14 @@
                 </tr>
                 <tr>
                     <th>
+                        Dob certificate
+                    </th>
+                    <td style="padding:  0;">
+                        <a target="_blank" href="{{ url('/uploads/' . $player->dob_crt) }}"><img width="150" src="{{ url('/uploads/' . $player->dob_crt) }}" alt=""></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         Player Id
                     </th>
                     <td>

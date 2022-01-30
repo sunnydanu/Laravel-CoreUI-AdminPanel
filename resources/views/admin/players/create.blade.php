@@ -23,28 +23,32 @@
                                         <div class="row row-15 row-gutters-14">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Your name<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Your name<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="full_name" type="text"
                                                            name="full_name" placeholder="Your name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Father's Name<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Father's Name<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="father_name" type="text"
                                                            name="father_name" placeholder="Father's Name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Mother's Name<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Mother's Name<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="mother_name" type="text"
                                                            name="mother_name" placeholder="Mother's Name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Gender<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Gender<span
+                                                            class="text-danger">*</span></label>
 
                                                     <select required="" class="form-control" id="gender" type="text"
                                                             name="gender">
@@ -59,7 +63,8 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">DOB<span class="text-danger">*</span></label>
+                                                    <label class="form-label">DOB<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="dob" type="date" name="dob"
                                                            placeholder="DOB" required="">
                                                 </div>
@@ -109,14 +114,16 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Phone No.<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Phone No.<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="phone" type="text" name="phone"
                                                            placeholder="Phone NO." required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Email<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Email<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="email" type="text" name="email"
                                                            placeholder="Email">
                                                 </div>
@@ -151,15 +158,19 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Player image<span class="text-danger">*</span></label>
+                                                    <label class="form-label">Player image<span
+                                                            class="text-danger">*</span></label>
                                                     <input class="form-control" id="player_image" type="file"
-                                                           name="player_image" placeholder="Player Image" required="">
+                                                           accept=".png .jpeg" name="player_image"
+                                                           placeholder="Player Image" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">DOB Certificate<span class="text-danger">*</span></label>
-                                                    <input class="form-control" id="dob_crt" type="file" name="dob_crt"
+                                                    <label class="form-label">DOB Certificate<span
+                                                            class="text-danger">*</span></label>
+                                                    <input class="form-control" id="dob_crt" type="file"
+                                                           accept=".png .jpeg" name="dob_crt"
                                                            placeholder="Certificate Image" required="">
                                                 </div>
                                             </div>
