@@ -1,9 +1,12 @@
 <?php
 
+global  $logoutRoute  ;
 if($_SERVER["REMOTE_ADDR"] === '127.0.0.1'){
+    $logoutRoute = '/';
     Route::redirect('/', '/login');
     Route::redirect('/home', '/admin');
 }else{
+    $logoutRoute = 'http://ptta.co.in/';
     //    Route::redirect('/', '/tournaments/list');
     Route::redirect('/login', '/tournaments/login');
     Route::redirect('/home', '/tournaments/admin');

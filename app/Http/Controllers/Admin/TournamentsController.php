@@ -116,8 +116,8 @@ class TournamentsController extends Controller{
 
     public function update(UpdateTournamentRequest $request, Tournament $tournament){
         abort_unless(\Gate::allows('tournament_edit'), 403);
-
-        $tournament->update($request->all());
+        //dd($request->only(['title','status','description']));
+        $tournament->update($request->only(['title', 'tag', 'description']));
 
         return redirect()->route('admin.tournaments.index');
     }

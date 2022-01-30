@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class Create1555355681975PlayersTable extends Migration{
     public function up(){
         Schema::create('players', function(Blueprint $table){
-            $table->uuid('id')->primary();
+            $table->increments('id')->primary();
             $table->string('full_name', 20)->nullable();
             $table->string('father_name', 20)->nullable();
             $table->string('mother_name', 20)->nullable();
@@ -31,8 +31,6 @@ class Create1555355681975PlayersTable extends Migration{
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
-
-
         });
     }
 

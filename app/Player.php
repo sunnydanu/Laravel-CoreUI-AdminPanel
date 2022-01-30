@@ -13,8 +13,8 @@ class Player extends Model{
     // use Uuid;
 
     protected $table = 'players';
-    public $incrementing = FALSE;
-    protected $keyType = 'uuid';
+//    public $incrementing = FALSE;
+//    protected $keyType = 'uuid';
     protected $dates = [
         'created_at',
         'dob',

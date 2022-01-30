@@ -27,12 +27,16 @@
                         <thead style="white-space: nowrap">
                         <tr>
                             <th></th>
-                            <th> Reg Id</th>
-                            <th> Player Id</th>
-                            <th> Name</th>
-                            <th> Father Name</th>
-                            <th> District</th>
 
+                            <th> Player Id</th>
+                            <th style="width: 5px"> Name</th>
+                            <th> Father Name</th>
+                            <th> gender</th>
+                            <th> dob</th>
+                            <th> district</th>
+                            <th> category</th>
+                            <th> phone</th>
+                            <th> email</th>
 
                         </tr>
 
@@ -44,7 +48,7 @@
                             <tr data-entry-id="{{ $player->tournaments->first()->pivot->id }}">
                                 <td></td>
 
-                                <td>  {{ $player->tournaments->first()->pivot->id?? '' }}</td>
+
                                 <td>  {{ $player->id ?? '' }}</td>
 
                                 <td>
@@ -54,9 +58,24 @@
                                     {{ $player->father_name ?? '' }}
                                 </td>
                                 <td>
+                                    {{ $player->gender ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->dob ?? '' }}
+                                </td>
+                                <td>
                                     {{ $player->district ?? '' }}
                                 </td>
+                                <td>
+                                    {{ $player->category ?? '' }}
+                                </td>
 
+                                <td>
+                                    {{ $player->phone ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $player->email ?? '' }}
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

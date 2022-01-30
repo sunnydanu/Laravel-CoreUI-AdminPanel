@@ -23,28 +23,28 @@
                                         <div class="row row-15 row-gutters-14">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Your name*</label>
+                                                    <label class="form-label">Your name<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="full_name" type="text"
                                                            name="full_name" placeholder="Your name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Father's Name*</label>
+                                                    <label class="form-label">Father's Name<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="father_name" type="text"
                                                            name="father_name" placeholder="Father's Name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Mother's Name*</label>
+                                                    <label class="form-label">Mother's Name<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="mother_name" type="text"
                                                            name="mother_name" placeholder="Mother's Name" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Gender*</label>
+                                                    <label class="form-label">Gender<span class="text-danger">*</span></label>
 
                                                     <select required="" class="form-control" id="gender" type="text"
                                                             name="gender">
@@ -59,14 +59,14 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">DOB*</label>
+                                                    <label class="form-label">DOB<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="dob" type="date" name="dob"
                                                            placeholder="DOB" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Category*</label>
+                                                    <label class="form-label">Category<span class="text-danger">*</span></label>
 
                                                     <select id="category" name="category" class="form-control">
                                                         <option value="">Choose Category</option>
@@ -81,7 +81,7 @@
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">District*</label>
+                                                    <label class="form-label">District<span class="text-danger">*</span></label>
 
                                                     <select id="district" name="district" class="form-control">
                                                         <option value="">Choose District</option>
@@ -95,28 +95,28 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Address*</label>
+                                                    <label class="form-label">Address<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="address" type="text" name="address"
                                                            placeholder="Your Address" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Pincode*</label>
+                                                    <label class="form-label">Pincode<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="pincode" type="text" name="pincode"
                                                            placeholder="Pincode" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Phone No.*</label>
+                                                    <label class="form-label">Phone No.<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="phone" type="text" name="phone"
                                                            placeholder="Phone NO." required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Email</label>
+                                                    <label class="form-label">Email<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="email" type="text" name="email"
                                                            placeholder="Email">
                                                 </div>
@@ -151,14 +151,14 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">Player image</label>
+                                                    <label class="form-label">Player image<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="player_image" type="file"
                                                            name="player_image" placeholder="Player Image" required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label">DOB Certificate</label>
+                                                    <label class="form-label">DOB Certificate<span class="text-danger">*</span></label>
                                                     <input class="form-control" id="dob_crt" type="file" name="dob_crt"
                                                            placeholder="Certificate Image" required="">
                                                 </div>

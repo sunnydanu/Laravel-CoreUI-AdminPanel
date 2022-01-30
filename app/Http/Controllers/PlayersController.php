@@ -20,7 +20,6 @@ class PlayersController extends Controller{
         // dd($request->all());
 
         $data = $request->all();
-        $data['id'] = Str::random(9);
         $data['player_img'] = Storage::disk('public_uploads')->putFile('/players', $request->file('player_image'));
         $data['dob_crt'] = Storage::disk('public_uploads')->putFile('/dob', $request->file('dob_crt'));
 

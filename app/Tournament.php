@@ -25,6 +25,7 @@ class Tournament extends Model{
         'title',
         'description',
         'status',
+        'tag',
         'created_at',
         'updated_at',
         'deleted_at',
