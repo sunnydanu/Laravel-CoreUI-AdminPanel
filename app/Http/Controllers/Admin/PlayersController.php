@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyPlayerRequest;
 use App\Http\Requests\StorePlayerRequest;
 use App\Http\Requests\UpdatePlayerRequest;
 use App\Player;
+use App\Tournament;
 
 class PlayersController extends Controller{
     public function index(){
@@ -16,7 +17,7 @@ class PlayersController extends Controller{
         $players = Player::when(auth()->user()->hasRole('district'), function($q){
             $q->where('players.district', auth()->user()->district);
         })->get();
-
+        $tournament = new Tournament();
         $tournamentId = request('tournament', FALSE);
         $playersInTournament = $category_list = [];
         if($tournamentId){
@@ -28,10 +29,12 @@ class PlayersController extends Controller{
                 $q->where('players.district', auth()->user()->district);
             })->get();
 
+            $tournament = Tournament::find($tournamentId);
+
             $category_list = Category::all();
         }
 
-        return view('admin.players.index', compact('players', 'playersInTournament', 'category_list'));
+        return view('admin.players.index', compact('tournament', 'players', 'playersInTournament', 'category_list'));
     }
 
     public function create(){

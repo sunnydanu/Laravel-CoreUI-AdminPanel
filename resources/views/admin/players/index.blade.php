@@ -84,7 +84,9 @@
             </div>
         </div>
     @endif
-    @if(!request()->has('tournament') ||  auth()->user()->hasRole('district'))
+
+    @if(auth()->user()->hasRole('district') && request()->has('tournament') ?  $tournament->tag == 'REG_OPEN' : TRUE)
+
 
         <div class="card">
             <div class="card-header">
@@ -352,7 +354,7 @@
 
             // register tournament player
             @can('register_tournament_player')
-
+                @if($tournament->tag == 'REG_OPEN')
             if (tournamentReg) {
 
                 // select player gender
@@ -460,8 +462,9 @@
                     }
                 };
                 dtButtonsTournamentPlayer.push(removeButton);
-            }
 
+            }
+            @endif
             @endcan
 
 

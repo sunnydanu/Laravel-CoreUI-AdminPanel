@@ -161,7 +161,7 @@
                                                     <label class="form-label">Player image<span
                                                             class="text-danger">*</span></label>
                                                     <input class="form-control" id="player_image" type="file"
-                                                           accept=".png .jpeg" name="player_image"
+                                                           accept=".jpeg" name="player_image"
                                                            placeholder="Player Image" required="">
                                                 </div>
                                             </div>
@@ -170,7 +170,7 @@
                                                     <label class="form-label">DOB Certificate<span
                                                             class="text-danger">*</span></label>
                                                     <input class="form-control" id="dob_crt" type="file"
-                                                           accept=".png .jpeg" name="dob_crt"
+                                                           accept=".jpeg" name="dob_crt"
                                                            placeholder="Certificate Image" required="">
                                                 </div>
                                             </div>
