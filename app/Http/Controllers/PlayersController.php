@@ -21,14 +21,6 @@ class PlayersController extends Controller{
 
         $data = $request->all();
 
-        validator($request, [
-            'player_img' => 'mimes:jpeg  |max:3024',
-            'dob_crt'    => 'mimes:jpeg  |max:3096',
-        ], $messages = [
-
-            'mimes' => 'Only jpeg, are allowed.',
-        ]);
-
         $data['player_img'] = Storage::disk('public_uploads')->putFile('/players', $request->file('player_image'));
         $data['dob_crt'] = Storage::disk('public_uploads')->putFile('/dob', $request->file('dob_crt'));
 
