@@ -53,8 +53,8 @@ class PlayersController extends Controller{
 
     public function edit(Player $player){
         abort_unless(\Gate::allows('player_edit'), 403);
-
-        return view('admin.players.edit', compact('player'));
+        $category_list = Category::all();
+        return view('admin.players.edit', compact('player','category_list'));
     }
 
     public function update(UpdatePlayerRequest $request, Player $player){
