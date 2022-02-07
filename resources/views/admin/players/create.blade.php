@@ -128,7 +128,7 @@
                                                     <label class="form-label">Phone No.<span
                                                             class="text-danger">*</span></label>
                                                     <input class="form-control" id="phone" type="text" name="phone"
-                                                           placeholder="Phone NO." required="">
+                                                           placeholder="Phone No." required="">
                                                 </div>
                                             </div>
                                             <div class="col-12">

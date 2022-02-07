@@ -13,13 +13,16 @@ use App\Tournament;
 class PlayersController extends Controller{
     public function index(){
         abort_unless(\Gate::allows('player_access'), 403);
-
-        $players = Player::when(auth()->user()->hasRole('district'), function($q){
-            $q->where('players.district', auth()->user()->district);
-        })->get();
         $tournament = new Tournament();
         $tournamentId = request('tournament', FALSE);
         $playersInTournament = $category_list = [];
+
+        $players = Player::when(auth()->user()->hasRole('district'), function($q) use ($tournamentId){
+            $q->where('players.district', auth()->user()->district)->when($tournamentId, function($q2){
+                $q2->where('players.district_approval', '1')->where('players.state_approval', '1');
+            });
+        })->get();
+
         if($tournamentId){
             $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
                 $q->whereHas('tournaments', function($q) use ($tournamentId){
@@ -54,7 +57,7 @@ class PlayersController extends Controller{
     public function edit(Player $player){
         abort_unless(\Gate::allows('player_edit'), 403);
         $category_list = Category::all();
-        return view('admin.players.edit', compact('player','category_list'));
+        return view('admin.players.edit', compact('player', 'category_list'));
     }
 
     public function update(UpdatePlayerRequest $request, Player $player){
