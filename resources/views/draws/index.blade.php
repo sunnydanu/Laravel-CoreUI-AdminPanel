@@ -84,8 +84,10 @@
         </div>
     </div>
 
-    <p class="text-danger">Enter player in following format: <b>[playerId][playerName][state][score]</b> <br>
-        eg: <b>[9frEKdb9F][Demo Player][JAL][3 - 0 (8,7,4)]</b>
+
+    <p class="text-danger">
+        To use auto search: Enter player Id and then add #
+        e.g : 1007#
     </p>
 
     <hr style="width: 98%;">
@@ -148,6 +150,34 @@
             str = str.replace(/\W+(?!$)/g, '-').toLowerCase();
             str = str.replace(/\W$/, '-').toLowerCase();
             $('#draw-name').val(str);
+        });
+
+        $('.round input').on('keyup', function (event) {
+            //alert("key up");
+            const elm = event.target;
+            const keycode = (event.keyCode ? event.keyCode : event.which);
+            console.log(keycode);
+            if (keycode == 51) {
+                event.preventDefault();
+                $.ajax({
+                    headers: {'x-csrf-token': '{{ csrf_token() }}'},
+                    method: 'POST',
+                    dataType: "json",
+                    url: '{{route('admin.tournament.getPlayer')}}',
+                    data: {pid: elm.value.replace("#", '')},
+                    success: function (resp) {
+                        console.log(resp);
+                        if (resp.status === '1') {
+                            $(elm).val(resp.playerCode);
+                        } else {
+                            $(elm).val('');
+                            alert('Player not found')
+                        }
+                    }
+                })
+
+            }
+
         });
 
 

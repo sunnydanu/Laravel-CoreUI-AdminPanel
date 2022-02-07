@@ -14,6 +14,7 @@ use App\Player;
 use App\Tournament;
 use App\TournamentDraw;
 use App\TournamentPlayer;
+use App\User;
 use Illuminate\Support\Str;
 
 class TournamentsController extends Controller{
@@ -112,6 +113,21 @@ class TournamentsController extends Controller{
         abort_unless(\Gate::allows('tournament_edit'), 403);
 
         return view('admin.tournaments.edit', compact('tournament'));
+    }
+
+    public function getPlayer(){
+        abort_unless(\Gate::allows('tournament_create'), 403);
+        $pid = request('pid', FALSE);
+
+        if($pid){
+            $player = Player::find($pid);
+            if($player){
+                $playerCode = "[$player->id][$player->full_name][$player->district][score]";
+                return response()->json(['playerCode' => $playerCode, 'status' => "1"], 201);
+            }
+        }
+
+        return response()->json(['status' => "0"]);
     }
 
     public function update(UpdateTournamentRequest $request, Tournament $tournament){
