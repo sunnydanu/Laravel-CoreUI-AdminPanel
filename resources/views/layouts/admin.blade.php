@@ -128,21 +128,31 @@
 
         $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {className: 'btn'})
         $.extend(true, $.fn.dataTable.defaults, {
+
+
             initComplete: function () {
                 // Apply the search
                 this.api().columns().every(function () {
                     const that = this;
                     $('input', this.header()).on('keyup change clear', function () {
-                        if (that.search() !== this.value) {
+                        if (this.value == '') {
                             that.search(this.value).draw();
+                        }else if (that.search() !== this.value) {
+                            regex = '^' + $.fn.dataTable.util.escapeRegex(this.value) ;
+                            that
+                                .search(regex, true, false)
+                                .draw();
                         }
+
                     });
                 });
+
 
             },
             language: {
                 url: languages.{{ app()->getLocale() }}
             },
+
             columnDefs: [{
                 orderable: false,
                 className: 'select-checkbox',
@@ -213,6 +223,7 @@
         });
 
         $.fn.dataTable.ext.classes.sPageButton = '';
+
     });
 
 </script>

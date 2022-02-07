@@ -84,8 +84,10 @@
         </div>
     </div>
 
-
-    <p class="text-danger">
+    <p class="text-danger">Enter player in following format: <b>[playerId][playerName][state][score]</b> <br>
+        eg: <b>[9frEKdb9F][Demo Player][JAL][3 - 0 (8,7,4)]</b>
+    </p>
+    <p class="text-danger" >
         To use auto search: Enter player Id and then add #
         e.g : 1007#
     </p>
@@ -169,7 +171,7 @@
                         console.log(resp);
                         if (resp.status === '1') {
                             $(elm).val(resp.playerCode);
-                        } else {
+                        }else{
                             $(elm).val('');
                             alert('Player not found')
                         }
