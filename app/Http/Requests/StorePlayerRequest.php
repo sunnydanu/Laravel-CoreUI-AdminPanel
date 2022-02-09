@@ -13,7 +13,19 @@ class StorePlayerRequest extends FormRequest{
 
     public function rules(){
         return [
-            '*' => 'required',
+            'full_name'    => 'required',
+            'father_name'  => 'required',
+            'mother_name'  => 'required',
+            'gender'       => 'required',
+            'dob'          => 'required',
+            'category'     => 'required',
+            'district'     => 'required',
+            'address'      => 'required',
+            'pincode'      => 'required',
+            'phone'        => 'required',
+            'email'        => 'required',
+            'player_image' => 'required',
+            'dob_crt'      => 'required',
         ];
     }
 }

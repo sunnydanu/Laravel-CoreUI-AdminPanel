@@ -29,6 +29,13 @@
                     </strong>
                 </div>
             @endif
+
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+
             <form action="{{ route('player.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <section class="section-md bg-transparent">
@@ -170,7 +177,9 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Player image<span
-                                                            class="text-danger">*</span></label>
+                                                            class="text-danger">*</span>
+                                                        <span
+                                                            class="text-info">Max then 2 MB</span></label>
                                                     <input class="form-control" id="player_image" type="file"
                                                            accept=".jpeg,.jpg,.png" name="player_image"
                                                            placeholder="Player Image" required="">
@@ -179,7 +188,11 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label">DOB Certificate<span
-                                                            class="text-danger">*</span></label>
+                                                            class="text-danger">*</span>
+                                                        <span
+                                                            class="text-info">Max then 2 MB</span>
+
+                                                    </label>
                                                     <input class="form-control" id="dob_crt" type="file"
                                                            accept=".jpeg,.jpg,.png" name="dob_crt"
                                                            placeholder="Certificate Image" required="">
@@ -216,16 +229,24 @@
 
             if (age) {
                 let cat = 'U-';
-                if (age > 19) {
-                    cat += 19;
-                } else if (age > 17) {
-                    cat += 17;
-                } else if (age > 15) {
-                    cat += 15;
-                } else if (age > 13) {
-                    cat += 13;
-                } else if (age > 11) {
+                if (age > 0 && age < 11) {
                     cat += 11;
+                } else if (age > 11 && age <= 13) {
+                    cat += 13;
+                } else if (age > 13 && age <= 15) {
+                    cat += 15;
+                } else if (age > 15 && age <= 17) {
+                    cat += 17;
+                } else if (age > 17 && age <= 19) {
+                    cat += 19;
+                } else if (age > 19) {
+                    $('#category .cat-code').val('MEN_WOMEN');
+                    $('#category .cat-name').html('MEN/WOMEN');
+                    return true
+                } else {
+                    $('#category .cat-code').val("");
+                    $('#category .cat-name').html("In-valid dob");
+
                 }
                 $('#category .cat-code').val(cat);
                 $('#category .cat-name').html(catList[cat]);

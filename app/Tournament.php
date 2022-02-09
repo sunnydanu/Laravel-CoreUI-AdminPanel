@@ -32,10 +32,10 @@ class Tournament extends Model{
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    function players(){
-        return $this->belongsToMany(Player::class, TournamentPlayer::class);
+    function tournamentPlayers(){
+        return $this->hasMany(TournamentPlayer::class);
     }
 
     /**

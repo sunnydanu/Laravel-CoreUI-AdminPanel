@@ -7,19 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class TournamentPlayer extends Model{
     use UuidForKey;
-
     protected $dates = [
         'updated_at',
         'created_at',
         'deleted_at',
 
     ];
+
     //
-    function players(){
-        $this->belongsTo(Player::class);
+    function player(){
+        return $this->belongsTo(Player::class, 'player_id', 'id');
     }
 
-    function tournaments(){
-        $this->belongsTo(Tournament::class);
+    function category(){
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    function tournament(){
+        return $this->belongsTo(Tournament::class, 'tournament_id', 'id');
     }
 }

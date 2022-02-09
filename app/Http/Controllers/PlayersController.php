@@ -23,7 +23,10 @@ class PlayersController extends Controller{
 
         $data['player_img'] = Storage::disk('public_uploads')->putFile('/players', $request->file('player_image'));
         $data['dob_crt'] = Storage::disk('public_uploads')->putFile('/dob', $request->file('dob_crt'));
-        Player::create($data);
-        return redirect()->route('player.register');
+        if(Player::create($data)){
+            return redirect()->route('player.register')->with('message', 'Player register successfully');
+        }
+
+        return redirect()->route('player.register')->with('message', 'Failed to save player ! . Try later');
     }
 }

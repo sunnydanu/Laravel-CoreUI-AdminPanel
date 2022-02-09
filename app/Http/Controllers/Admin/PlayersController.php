@@ -24,16 +24,8 @@ class PlayersController extends Controller{
         })->get();
 
         if($tournamentId){
-            $playersInTournament = Player::when($tournamentId, function($q) use ($tournamentId){
-                $q->whereHas('tournaments', function($q) use ($tournamentId){
-                    $q->where('tournaments.id', $tournamentId);
-                });
-            })->when(auth()->user()->hasRole('district'), function($q){
-                $q->where('players.district', auth()->user()->district);
-            })->get();
-
             $tournament = Tournament::find($tournamentId);
-
+            $playersInTournament = $tournament->tournamentPlayers;
             $category_list = Category::all();
         }
 

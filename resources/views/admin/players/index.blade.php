@@ -29,6 +29,7 @@
                             <th></th>
 
                             <th> Player Id</th>
+                            <th> Tournament Category</th>
                             <th style="width: 5px"> Name</th>
                             <th> Father Name</th>
                             <th> gender</th>
@@ -44,13 +45,25 @@
                         <tbody>
 
 
-                        @foreach ($playersInTournament as $key => $player)
-                            <tr data-entry-id="{{ $player->tournaments->first()->pivot->id }}">
+                        @foreach ($playersInTournament as $key => $tournamentsPlayer)
+                            <tr data-entry-id="{{ $tournamentsPlayer->id }}">
+                                @php
+                                    $player =    $tournamentsPlayer->player
+
+                                @endphp
+
+                                @if(auth()->user()->hasRole('district') && $tournamentsPlayer->player->district != auth()->user()->district)
+                                    @continue
+                                @endif
+
                                 <td></td>
 
 
                                 <td>  {{ $player->id ?? '' }}</td>
 
+                                <td>
+                                    {{  $tournamentsPlayer->category->code ?? '' }}
+                                </td>
                                 <td>
                                     {{ $player->full_name ?? '' }}
                                 </td>
@@ -166,7 +179,7 @@
                                         @if ($player->district_approval)
                                             <span class="btn btn-success btn-xs ">Approved</span>
                                         @elseif (auth()->user()->hasRole('district'))
-                                            <button type="submit" title="Click to verifiy"
+                                            <button type="submit" title="Click to verify"
                                                     class="btn btn-danger btn-xs action">Pending
                                             </button>
                                         @else
@@ -183,7 +196,7 @@
                                         @if ($player->state_approval)
                                             <span class="btn btn-success btn-xs">Approved</span>
                                         @elseif (auth()->user()->hasRole('state'))
-                                            <button type="submit" title="Click to verifiy"
+                                            <button type="submit" title="Click to verify"
                                                     class="btn btn-danger btn-xs action">Pending
                                             </button>
                                         @else
@@ -212,9 +225,9 @@
                                 @endif
                                 <td>
                                     @if(isset($player->tournaments))
-                                        @foreach($player->tournaments as $tournament)
-                                            <span id="{{$tournament->id}}"
-                                                  class="btn btn-xs btn-dark">{{$tournament->id}}</span>
+                                        @foreach($player->tournaments as $playerTournament)
+                                            <span id="{{$playerTournament->id}}"
+                                                  class="btn btn-xs btn-dark">{{$playerTournament->id}}</span>
                                         @endforeach
                                     @endif
                                 </td>
@@ -354,7 +367,8 @@
 
             // register tournament player
             @can('register_tournament_player')
-                @if($tournament->tag == 'REG_OPEN')
+            console.log('{{$tournament->tag}}')
+            @if($tournament->tag == 'REG_OPEN')
             if (tournamentReg) {
 
                 // select player gender
